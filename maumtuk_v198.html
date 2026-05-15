@@ -92,13 +92,13 @@
   }
 
   /* ─── HEADER ─── */
-  .header { padding: 56px var(--space-lg) var(--space-sm); background: var(--warm-white); position: relative; z-index: 10; flex-shrink: 0; }
+  .header { padding: calc(env(safe-area-inset-top) + 12px) var(--space-lg) var(--space-sm); background: var(--warm-white); position: relative; z-index: 10; flex-shrink: 0; }
   .header-top { display: flex; align-items: center; justify-content: space-between; }
   .logo-area { display: flex; align-items: center; gap: 8px; }
 
   .app-name { font-family: 'Pretendard', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-deep); letter-spacing: -0.3px; }
   .header-greeting { margin-top: 14px; }
-  .greeting-text { font-size: 28px; font-weight: 600; color: var(--text-deep); letter-spacing: -0.5px; line-height: 1.35; font-family: 'Pretendard', sans-serif; word-break: keep-all; }
+  .greeting-text { font-size: 22px; font-weight: 600; color: var(--text-deep); letter-spacing: -0.5px; line-height: 1.35; font-family: 'Pretendard', sans-serif; word-break: keep-all; }
   .greeting-sub { font-size: 12px; color: var(--text-light); margin-top: 6px; letter-spacing: 0px; }
 
   /* ===== 나에게 한마디 ===== */
@@ -920,7 +920,7 @@
 
   <!-- 하단 고정 쓰기 버튼 (지금 탭에서만) -->
   <button id="writeFixedBtn" onclick="openOverlay()" style="
-    position: fixed; bottom: 14px; right: 20px;
+    position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
     z-index: 50;
     width: 52px; height: 52px; border-radius: 50%;
     background: #A8C870;
