@@ -1819,8 +1819,7 @@ function setComfortQuotes() {
   // 매칭 안 되면 랜덤
   if (!matched1) matched1 = COMFORT_QUOTES[Math.floor(Math.random() * COMFORT_QUOTES.length)].text;
 
-  document.getElementById('comfortQuote').dataset.text = matched1;
-  document.getElementById('comfortQuote').textContent = '';
+  document.getElementById('comfortQuote').textContent = matched1;
 
 }
 
