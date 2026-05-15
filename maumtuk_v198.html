@@ -935,20 +935,31 @@
   </div>
 </div>
 
-<!-- FAB -->
-<button id="writeFixedBtn" onclick="openOverlay()" style="
-  position: fixed; bottom: 88px; right: 20px;
-  z-index: 50;
-  width: 52px; height: 52px; border-radius: 50%;
-  background: #A8C870; border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 16px rgba(122,173,58,0.32);
-  transition: transform 0.15s;
-" onmousedown="this.style.transform='scale(0.93)'" onmouseup="this.style.transform='scale(1)'" ontouchstart="this.style.transform='scale(0.93)'" ontouchend="this.style.transform='scale(1)'">
-  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2C4A1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
-  </svg>
-</button>
+<!-- 툭 남기기 버튼 -->
+<div id="writeFixedBtn" style="
+  position: fixed; bottom: 96px;
+  left: 50%; transform: translateX(-50%);
+  z-index: 50; width: 100%; max-width: 430px;
+  display: flex; justify-content: center;
+  padding: 12px 24px;
+  background: transparent;
+  pointer-events: none;
+">
+  <button onclick="openOverlay()" style="
+    background: #A8C870; color: #2C4A1E;
+    border: none; border-radius: var(--radius-xl);
+    padding: 12px 32px;
+    font-size: var(--text-sub); font-weight: 600;
+    font-family: 'Pretendard', sans-serif;
+    cursor: pointer; letter-spacing: -0.2px;
+    display: flex; align-items: center; gap: 6px;
+    box-shadow: 0 4px 16px rgba(122,173,58,0.25);
+    transition: background 0.2s;
+    white-space: nowrap; pointer-events: auto;
+  ">
+    툭 남기기
+  </button>
+</div>
 
 <!-- WRITE OVERLAY -->
 <div class="overlay" id="writeOverlay">
