@@ -762,7 +762,6 @@
           <div class="today-empty-text">
             아직 오늘의 마음이 없어요.<br>조용히 떠오르는 한 조각이면 충분해요.
           </div>
-          <button onclick="openOverlay()" class="today-empty-button">오늘의 첫 툭 남기기</button>
         </div>
 
         <!-- 기록 있을 때 -->
@@ -1679,7 +1678,7 @@ function renderTodayEntries() {
   const writeBtn = document.getElementById('writeFixedBtn');
   if (!todayList.length) {
     if (emptyEl) emptyEl.style.display = 'block';
-    if (writeBtn) writeBtn.style.display = 'none';
+    if (writeBtn) writeBtn.style.display = 'flex';
     list.innerHTML = '';
     return;
   }
