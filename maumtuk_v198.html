@@ -313,21 +313,18 @@
   /* ─── FLIP CARD ─── */
   /* ─── 쪽지 카드 (페이드 + 타이핑) ─── */
   .note-card {
-    width: 100%; cursor: pointer;
-    background: linear-gradient(180deg, #FFF8E4 0%, #FEFCE8 100%);
-    border-radius: 28px;
-    padding: 16px 26px 36px;
-    box-shadow: 0 16px 40px rgba(171,139,81,0.16), 0 4px 12px rgba(0,0,0,0.06), -1px -1px 4px rgba(255,255,255,0.6);
-    border: none;
-    min-height: 150px;
+    width: 100%;
+    background: transparent;
+    border-radius: 0;
+    padding: 20px 4px 24px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
     display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    text-align: center;
-    transition: all 0.3s ease;
+    align-items: flex-start; justify-content: center;
+    text-align: left;
     position: relative;
-    transform: rotate(-0.8deg);
   }
-  .note-card:active { transform: rotate(-0.8deg) scale(0.985); }
+  .note-card:active { opacity: 0.7; }
 
   /* 앞면 — 닫힌 상태 */
   .note-front {
@@ -392,12 +389,6 @@
   }
   .today-empty-button:active {
     transform: scale(0.98);
-  }
-  .note-card.opened .note-front { display: none; }
-  .note-card.opened { padding-top: 20px; padding-bottom: 50px; }
-  .note-card.opened .note-back {
-    display: flex;
-    opacity: 1;
   }
 
   /* 타이핑 커서 */
@@ -712,35 +703,16 @@
     <!-- 지금 탭 -->
     <div class="tab-content active" id="tab-now">
 
-      <!-- 오늘의 쪽지 — 페이드 + 타이핑 -->
-      <div style="padding: 28px 24px 0;">
-        <div class="note-card" id="noteCard" onclick="openNoteCard()">
-
-          <!-- -- . 데코 (항상 표시) -->
-          <div style="margin-bottom:8px;">
-            <svg viewBox="0 0 80 36" width="64" height="28" fill="none">
-              <line x1="4" y1="22" x2="54" y2="22"
-                stroke="#C4BAB0" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="66" cy="22" r="8" fill="#A8C870"/>
-            </svg>
-          </div>
-
-          <!-- 앞면 -->
-          <div class="note-front" id="noteFront">
-            <div style="font-size:var(--text-sub); color:rgba(47,47,47,0.85); font-weight:700; font-family:'Pretendard',sans-serif; letter-spacing:-0.3px;">오늘 마음 한 장</div>
-            <div style="font-size:11px; color:rgba(47,47,47,0.45); margin-top:4px; font-family:'Pretendard',sans-serif;">탭하면 펼쳐져요</div>
-          </div>
-          <!-- 뒷면 — 타이핑 -->
-          <div class="note-back" id="noteBack">
-            <div style="
-              font-family:'Pretendard',sans-serif;
-              font-size:16px; font-weight:500; line-height:1.8;
-              color:var(--text-deep); letter-spacing:-0.3px;
-              word-break:keep-all; width:100%;
-              text-align:center;
-            ">
-              <span id="comfortQuote"></span><span class="typing-cursor" id="typingCursor" style="display:none;"></span>
-            </div>
+      <!-- 오늘의 쪽지 -->
+      <div style="padding: 16px 24px 0;">
+        <div class="note-card" id="noteCard">
+          <div style="
+            font-family:'Nanum Myeongjo', serif;
+            font-size:16px; font-weight:400; line-height:1.9;
+            color:var(--text-mid); letter-spacing:-0.2px;
+            word-break:keep-all;
+          ">
+            <span id="comfortQuote"></span><span class="typing-cursor" id="typingCursor"></span>
           </div>
         </div>
       </div>
