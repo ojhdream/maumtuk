@@ -824,13 +824,10 @@
 
         <!-- 빈 상태 -->
         <div id="reviewEmpty" style="display:none; flex-direction:column; align-items:center; justify-content:center; padding: 60px 32px; text-align:center; min-height: 60vh; cursor:pointer;" onclick="switchTab('now')"  >
-          <div style="position:relative; width:72px; height:72px; margin-bottom:28px;">
-            <svg viewBox="0 0 72 72" fill="none" style="width:100%;height:100%;opacity:0.22;">
-              <circle cx="26" cy="26" r="17" fill="#A8C870"/>
-              <circle cx="46" cy="26" r="17" fill="#A8C870"/>
-              <circle cx="26" cy="46" r="17" fill="#A8C870"/>
-              <circle cx="46" cy="46" r="17" fill="#A8C870"/>
-              <rect x="34" y="52" width="4" height="14" rx="2" fill="#A8C870"/>
+          <div style="margin-bottom:28px; opacity:0.22;">
+            <svg viewBox="0 0 80 24" fill="none" width="80" height="24">
+              <line x1="4" y1="12" x2="58" y2="12" stroke="#A8C870" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="70" cy="12" r="7" fill="#F5D445"/>
             </svg>
           </div>
           <p style="font-family:'Nanum Myeongjo',serif; font-size:17px; font-weight:700; color:var(--text-deep); letter-spacing:-0.3px; line-height:1.5; margin-bottom:12px;">
@@ -966,7 +963,7 @@
       <div class="nav-label">툭로그</div>
     </div>
     <div class="nav-item" onclick="switchTab('review')" id="nav-review">
-      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
       <div class="nav-label">요즘</div>
     </div>
   </div>
