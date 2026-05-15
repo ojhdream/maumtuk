@@ -734,7 +734,7 @@
       </div>
       <div id="todayEntries" style="display:none;"></div>
 
-      <div class="scroll-pad" style="height: 80px;"></div>
+      <div class="scroll-pad" style="height: 160px;"></div>
     </div>
     <div class="tab-content" id="tab-log">
       <!-- 헤더 + 필터칩 -->
@@ -1741,9 +1741,12 @@ function setGreeting() {
 }
 
 function setComfortQuotes() {
+  const el = document.getElementById('comfortQuote');
+  if (!el) return;
+
   // 최근 3개 기록의 태그 수집
   const recentTags = new Set();
-  entries.slice(0, 3).forEach(e => e.tags.forEach(t => recentTags.add(t.label)));
+  try { entries.slice(0, 3).forEach(e => (e.tags||[]).forEach(t => recentTags.add(t.label))); } catch(e) {}
 
   // 태그별 위로 문구 매핑
   const tagQuoteMap = [
@@ -1818,8 +1821,9 @@ function setComfortQuotes() {
 
   // 매칭 안 되면 랜덤
   if (!matched1) matched1 = COMFORT_QUOTES[Math.floor(Math.random() * COMFORT_QUOTES.length)].text;
+  if (!matched1) matched1 = "오늘 하루를 살아냈다는 것만으로도 충분해요.";
 
-  document.getElementById('comfortQuote').textContent = matched1;
+  el.textContent = matched1;
 
 }
 
