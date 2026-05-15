@@ -416,7 +416,7 @@
 
 
   /* ─── WRITE OVERLAY ─── */
-  .overlay { position: fixed; inset: 0; z-index: 100; display: none; flex-direction: column; background: var(--warm-white); animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1); }
+  .overlay { position: fixed; inset: 0; height: 100dvh; z-index: 100; display: none; flex-direction: column; background: var(--warm-white); animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1); }
   .overlay.open { display: flex; }
   @keyframes slideUp { from { transform: translateY(100%); opacity: 0.5; } to { transform: translateY(0); opacity: 1; } }
   .overlay-header { padding: 52px 20px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); flex-shrink: 0; }
@@ -2268,6 +2268,7 @@ const PLACEHOLDERS = [
 ];
 
 function openOverlay() {
+  document.body.style.overflow = 'hidden';
   document.getElementById('writeOverlay').classList.add('open');
   const ta = document.getElementById('writeInput');
   ta.placeholder = PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)];
@@ -2284,6 +2285,7 @@ function openOverlay() {
 }
 
 function closeOverlay() {
+  document.body.style.overflow = '';
   document.getElementById('writeOverlay').classList.remove('open');
   document.getElementById('writeInput').value = '';
 }
