@@ -932,22 +932,23 @@
       <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
       <div class="nav-label">요즘</div>
     </div>
-    <!-- FAB 슬롯 -->
-    <div style="flex:1; display:flex; align-items:center; justify-content:center;">
-      <button id="writeFixedBtn" onclick="openOverlay()" style="
-        width:48px; height:48px; border-radius:50%;
-        background:#A8C870; border:none; cursor:pointer;
-        display:flex; align-items:center; justify-content:center;
-        box-shadow: 0 3px 12px rgba(122,173,58,0.35);
-        transition: transform 0.15s;
-      " onmousedown="this.style.transform='scale(0.93)'" onmouseup="this.style.transform='scale(1)'" ontouchstart="this.style.transform='scale(0.93)'" ontouchend="this.style.transform='scale(1)'">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2C4A1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
-        </svg>
-      </button>
-    </div>
   </div>
 </div>
+
+<!-- FAB -->
+<button id="writeFixedBtn" onclick="openOverlay()" style="
+  position: fixed; bottom: 88px; right: 20px;
+  z-index: 50;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #A8C870; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(122,173,58,0.32);
+  transition: transform 0.15s;
+" onmousedown="this.style.transform='scale(0.93)'" onmouseup="this.style.transform='scale(1)'" ontouchstart="this.style.transform='scale(0.93)'" ontouchend="this.style.transform='scale(1)'">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#2C4A1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+  </svg>
+</button>
 
 <!-- WRITE OVERLAY -->
 <div class="overlay" id="writeOverlay">
