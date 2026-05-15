@@ -1,0 +1,2832 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>마음, 툭 로그</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  :root {
+    /* 배경 */
+    --cream: #FAF8F3;
+    --warm-white: #FAF8F3;
+    --card-bg: #FFFFFF;
+
+    /* 포인트 */
+    --mint: #A8C870;
+    --mint-text: #3F5A4B;
+    --blush: #EDE0DA;
+    --blush-text: #6B5550;
+
+    /* 텍스트 */
+    --text-deep: #2C2420;
+    --text-mid: #8C7B6E;
+    --text-light: #ADA8A2;
+
+    /* 테두리/구분선 */
+    --border: #EAE5DC;
+
+    /* 태그 */
+    --tag-default-bg: #E8EEF5;
+    --tag-default-text: #4A5E72;
+    --tag-selected-bg: #E8EEDE;
+    --tag-selected-text: #4A5E42;
+
+    /* 버튼 */
+    --btn-primary-bg: #A8C870;
+    --btn-primary-text: #3D3A36;
+    --btn-secondary-border: var(--btn-secondary-border);
+    --btn-secondary-text: #7A746E;
+
+    /* 토큰 */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-xl: 28px;
+    --shadow: 0 4px 16px rgba(80,100,40,0.08);
+    --line-height: 1.6;
+    --text-title: 28px;
+    --text-section: 18px;
+    --text-body: 16px;
+    --text-sub: 14px;
+    --text-caption: 13px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: linear-gradient(180deg, #f8f6f1 0%, #f4f1ea 100%);
+    font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+    color: var(--text-deep); overflow: hidden;
+  }
+
+  #app {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    max-width: 430px; margin: 0 auto;
+    position: relative; background: linear-gradient(180deg, #f8f6f1 0%, #f4f1ea 100%);
+  }
+
+  /* 종이 질감 — 아주 미세하게 */
+  #app::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    max-width: 430px;
+    margin: 0 auto;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
+  }
+
+  /* ─── HEADER ─── */
+  .header { padding: 56px var(--space-lg) var(--space-sm); background: var(--warm-white); position: relative; z-index: 10; flex-shrink: 0; }
+  .header-top { display: flex; align-items: center; justify-content: space-between; }
+  .logo-area { display: flex; align-items: center; gap: 8px; }
+
+  .app-name { font-family: 'Pretendard', sans-serif; font-size: 15px; font-weight: 700; color: var(--text-deep); letter-spacing: -0.3px; }
+  .header-greeting { margin-top: 14px; }
+  .greeting-text { font-size: 28px; font-weight: 600; color: var(--text-deep); letter-spacing: -0.5px; line-height: 1.35; font-family: 'Pretendard', sans-serif; word-break: keep-all; }
+  .greeting-sub { font-size: 12px; color: var(--text-light); margin-top: 6px; letter-spacing: 0px; }
+
+  /* ===== 나에게 한마디 ===== */
+  .message-section { margin-top: 42px; padding: 0 24px; }
+  .message-title { font-size: 15px; font-weight: 600; color: #8E877F; margin-bottom: 18px; letter-spacing: -0.2px; }
+  .message-list { display: flex; flex-direction: column; gap: 14px; }
+  .message-card {
+    background: rgba(255,255,255,0.9);
+    border: 1px solid rgba(80,70,60,0.07);
+    border-radius: 24px; padding: 24px 22px;
+    box-shadow: 0 2px 10px rgba(40,30,20,0.025);
+    font-size: 17px; line-height: 1.75; letter-spacing: -0.3px;
+    color: #3A342F; cursor: pointer;
+    transition: all 0.22s ease;
+    font-family: 'Nanum Myeongjo', serif;
+  }
+  .message-card:nth-child(1) { transform: rotate(-0.8deg); box-shadow: 2px 4px 14px rgba(40,30,20,0.06); }
+  .message-card:nth-child(2) { transform: rotate(0.5deg);  box-shadow: -1px 4px 12px rgba(40,30,20,0.04); margin-top: 2px; }
+  .message-card:nth-child(3) { transform: rotate(-0.4deg); box-shadow: 1px 6px 18px rgba(40,30,20,0.07); margin-top: -2px; }
+  .message-card:nth-child(4) { transform: rotate(0.7deg);  box-shadow: -2px 3px 10px rgba(40,30,20,0.05); }
+  .message-card:nth-child(5) { transform: rotate(-0.6deg); box-shadow: 2px 5px 16px rgba(40,30,20,0.06); margin-top: 2px; }
+  .message-card:active { transform: scale(0.985); }
+  .message-card.selected { border: 1.4px solid #C8DFA0; background: #FFFEFC; }
+  .my-message-wrap { margin-top: 20px; }
+  .my-message-trigger {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 15px; color: #7B746D;
+    padding: 10px 2px; background: transparent; border: none; cursor: pointer;
+    font-family: 'Pretendard', sans-serif;
+  }
+  .my-message-input {
+    width: 100%; margin-top: 12px;
+    border: none; border-bottom: 1px solid rgba(70,60,50,0.12);
+    background: transparent; padding: 12px 2px;
+    font-size: 16px; line-height: 1.6; color: #3A342F; outline: none;
+    transition: border-color 0.2s ease;
+    font-family: 'Nanum Myeongjo', serif;
+  }
+  .my-message-input:focus { border-bottom: 1px solid rgba(120,140,128,0.45); }
+  .my-message-input::placeholder { color: #B5AEA7; }
+  .skip-message { margin-top: 30px; text-align: center; font-size: 15px; color: #B1AAA3; letter-spacing: -0.2px; cursor: pointer; font-family: 'Pretendard', sans-serif; }
+
+  /* ─── CARD COMMON ─── */
+  .card {
+    background: #FFFEFC;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow);
+  }
+
+  /* ─── CONTENT ─── */
+  .content { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+  .content::-webkit-scrollbar { display: none; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ─── 지금 탭 ─── */
+  .write-btn { flex: 1; background: var(--terracotta); color: white; border: none; border-radius: var(--radius-lg); padding: 16px; font-size: 15px; font-weight: 600; font-family: 'Pretendard', sans-serif; cursor: pointer; letter-spacing: -0.3px; transition: background 0.2s, transform 0.1s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .write-btn:active { background: var(--terracotta-muted); transform: scale(0.98); }
+  .section-label { font-size: 11px; font-weight: 600; color: var(--text-light); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; }
+  .comfort-card { background: #FFFEFC; border-radius: var(--radius-lg); padding: 22px 22px; border: 1px solid var(--border); margin-bottom: 12px; position: relative; box-shadow: var(--shadow); }
+  .comfort-text { font-family: 'Nanum Myeongjo', serif; font-size: var(--text-body); line-height: var(--line-height); color: var(--text-deep); letter-spacing: -0.2px; padding-right: 30px; word-break: keep-all; }
+  .comfort-source { font-size: 11px; color: var(--text-light); margin-top: 10px; letter-spacing: -0.1px; }
+  .clover-deco { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); opacity: 0.15; font-size: 32px; }
+  .scroll-pad { height: 32px; }
+
+  /* ─── 기록 탭 ─── */
+  .log-toolbar { padding: 20px 20px 0; display: flex; flex-direction: column; gap: 10px; flex-shrink: 0; }
+  .log-toolbar-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .search-box { flex: 1; display: flex; align-items: center; background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 0 14px; gap: 8px; height: 48px; transition: border-color 0.2s; }
+  .search-box:focus-within { border-color: var(--terracotta-light); }
+  .search-box svg { flex-shrink: 0; stroke: var(--text-light); width: 15px; height: 15px; }
+  .search-input { flex: 1; border: none; background: transparent; font-family: 'Pretendard', sans-serif; font-size: var(--text-sub); color: var(--text-deep); outline: none; letter-spacing: -0.2px; }
+  .search-input::placeholder { color: var(--text-light); }
+  .search-clear { background: none; border: none; cursor: pointer; color: var(--text-light); font-size: var(--text-sub); line-height: 1; padding: 0; display: none; }
+  .filter-toggle-btn { flex-shrink: 0; width: 48px; height: 48px; background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+  .filter-toggle-btn svg { stroke: var(--text-light); width: 16px; height: 16px; }
+  .filter-toggle-btn.active { background: #FDF0E8; border-color: var(--terracotta-light); }
+  .filter-toggle-btn.active svg { stroke: var(--terracotta); }
+  .filter-panel {
+    display: none;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding-bottom: 4px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .filter-panel::-webkit-scrollbar { display: none; }
+  .filter-panel.open { display: flex; }
+  .filter-chip { background: var(--tag-default-bg); color: var(--tag-default-text); border: none; border-radius: 20px; padding: 6px 14px; font-size: var(--text-caption); font-weight: 400; cursor: pointer; white-space: nowrap; transition: all 0.2s; letter-spacing: -0.2px; flex-shrink: 0; }
+  .filter-chip.active { background: var(--tag-selected-bg); color: var(--tag-selected-text); font-weight: 500; }
+  .filter-chip-peach { background: #F5F4EF; color: #6B6B6B; }
+  .filter-chip-green { background: #F5F4EF; color: #6B6B6B; }
+  .filter-chip-blue  { background: #F5F4EF; color: #6B6B6B; }
+  .filter-chip-all   { background: var(--tag-default-bg); color: var(--tag-default-text); }
+  .filter-chip-all.active { background: var(--tag-selected-bg); color: var(--tag-selected-text); }
+  .log-result-count { font-size: var(--text-caption); color: var(--text-mid); padding: 6px 20px 0; letter-spacing: -0.2px; font-weight: 500; }
+  .log-section { padding: 12px 20px 24px; }
+  .log-date-group { margin-bottom: 28px; }
+  .log-date { font-size: var(--text-caption); font-weight: 700; color: var(--text-mid); letter-spacing: -0.2px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .log-item { background: #FFFEFC; border-radius: var(--radius-lg); padding: 20px 22px; margin-bottom: 14px; border: 1px solid var(--border); cursor: pointer; transition: transform 0.15s; box-shadow: var(--shadow); }
+  .log-item:active { transform: scale(0.99); }
+  .log-item-top { margin-bottom: 10px; }
+  .log-preview { font-size: 16px; color: var(--text-deep); line-height: 1.7; letter-spacing: -0.3px; width: 100%; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .log-full-text { display: none; font-size: var(--text-body); color: var(--text-deep); line-height: var(--line-height); letter-spacing: -0.3px; margin-bottom: 8px; font-family: 'Pretendard', sans-serif; }
+  .log-item-expanded .log-preview { display: none; }
+  .log-item-expanded .log-full-text { display: block; }
+  .log-item-expanded .toggle-btn svg { transform: rotate(180deg); }
+  .log-time { font-size: var(--text-caption); color: var(--text-light); white-space: nowrap; flex-shrink: 0; letter-spacing: -0.2px; opacity: 0.75; font-weight: 500; }
+  .log-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .log-item-toggle { margin-top: 10px; display: flex; justify-content: flex-end; }
+  .toggle-btn { background: rgba(58,46,40,0.05); border: none; font-size: 11px; color: var(--text-mid); cursor: pointer; display: flex; align-items: center; gap: 3px; padding: 4px 10px; border-radius: var(--radius-lg); font-family: 'Pretendard', sans-serif; letter-spacing: -0.2px; }
+  .toggle-btn svg { stroke: var(--text-light); width: 12px; height: 12px; transition: transform 0.2s; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .tag { font-size: var(--text-caption); padding: 5px 12px; border-radius: var(--radius-lg); font-weight: 600; letter-spacing: -0.2px; }
+  .tag-peach { background: var(--blush); color: var(--blush-text); border: 1px solid rgba(100,70,60,0.1); }
+  .tag-green { background: var(--tag-selected-bg); color: var(--tag-selected-text); border: 1px solid rgba(60,80,50,0.1); }
+  .tag-blue  { background: var(--tag-default-bg); color: var(--tag-default-text); border: 1px solid rgba(60,80,120,0.1); }
+  .tag-grey  { background: #F0F0F0; color: #666666; }
+
+  /* ─── 클로버 달력 ─── */
+  .cal-week-row {
+    display: flex; align-items: center; gap: 0;
+  }
+  .cal-day-cell {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+  }
+  .cal-day-label {
+    font-size: 10px; color: var(--text-light);
+    font-weight: 500; letter-spacing: 0.2px;
+  }
+  .cal-day-mark {
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cal-day-mark svg {
+    width: 18px; height: 18px;
+  }
+  .cal-day-empty {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border); opacity: 0.5;
+  }
+  .cal-day-today .cal-day-label {
+    color: var(--terracotta); font-weight: 700;
+  }
+
+  /* ─── 돌아보기 탭 ─── */
+  .review-section { padding: 28px 20px; }
+
+  .review-period-label {
+    font-size: 11px; font-weight: 600; color: var(--text-light);
+    letter-spacing: 1px; text-transform: uppercase; margin-bottom: 20px;
+  }
+
+  /* AI 요약 카드 */
+
+  /* 태그 클라우드 */
+
+  .tag-cloud-review {
+    display: flex; flex-wrap: wrap;
+    gap: 6px 0;
+    padding: 4px 0 8px;
+    align-items: center;
+    line-height: 2.2;
+  }
+
+  .cloud-tag {
+    border-radius: var(--radius-lg); font-weight: 500;
+    letter-spacing: -0.2px; cursor: default;
+    transition: transform 0.15s;
+    line-height: 1;
+  }
+  .cloud-tag:active { transform: scale(0.97); }
+
+  /* 타임라인 */
+  .timeline { position: relative; padding-left: 16px; }
+  .timeline::before {
+    content: ''; position: absolute;
+    left: 5px; top: 6px; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative; margin-bottom: 18px;
+    padding-left: 16px;
+  }
+  .timeline-item::before {
+    content: ''; position: absolute;
+    left: -11px; top: 6px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--terracotta-light);
+    border: 2px solid var(--warm-white);
+  }
+
+  .timeline-date {
+    font-size: 10px; font-weight: 600; color: var(--text-light);
+    letter-spacing: 0.3px; margin-bottom: 5px;
+  }
+
+  .timeline-tags {
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+
+  .timeline-empty {
+    font-size: var(--text-caption); color: var(--text-light);
+    padding: 12px 0; letter-spacing: -0.2px;
+  }
+
+  /* ─── FLIP CARD ─── */
+  /* ─── 쪽지 카드 (페이드 + 타이핑) ─── */
+  .note-card {
+    width: 100%; cursor: pointer;
+    background: linear-gradient(180deg, #FFF8E4 0%, #FEFCE8 100%);
+    border-radius: 28px;
+    padding: 16px 26px 36px;
+    box-shadow: 0 16px 40px rgba(171,139,81,0.16), 0 4px 12px rgba(0,0,0,0.06), -1px -1px 4px rgba(255,255,255,0.6);
+    border: none;
+    min-height: 150px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    transform: rotate(-0.8deg);
+  }
+  .note-card:active { transform: rotate(-0.8deg) scale(0.985); }
+
+  /* 앞면 — 닫힌 상태 */
+  .note-front {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 10px;
+    transition: opacity 0.3s ease;
+    margin-top: -8px;
+  }
+  .note-back {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    margin-top: -8px;
+  }
+
+  .today-empty {
+    background:#FFFCF4;
+    border-radius:var(--radius-lg);
+    border:1.5px dashed rgba(234,229,220,0.9);
+    padding:18px 18px 20px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    max-width:100%;
+  }
+  .today-empty-icon {
+    width:50px;
+    height:50px;
+    object-fit:contain;
+    opacity:0.78;
+  }
+  .today-empty-text {
+    font-size:13px;
+    color:rgba(47,47,47,0.58);
+    line-height:1.7;
+    margin:0 0 8px;
+    word-break:keep-all;
+  }
+  .today-empty-button {
+    background: #A8C870;
+    border: none;
+    border-radius:999px;
+    padding:10px 26px;
+    font-size:13px; font-weight:600;
+    color:#2C4A1E;
+    font-family:'Pretendard',sans-serif;
+    cursor:pointer;
+    letter-spacing:-0.3px;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .today-empty-button:hover { background: #A8C870; }
+  .today-empty-button:active { transform: scale(0.95); background: #96b85e; }
+  .today-empty-button:hover {
+    background: rgba(168,200,112,0.2);
+  }
+  .today-empty-button:active {
+    transform: scale(0.98);
+  }
+  .note-card.opened .note-front { display: none; }
+  .note-card.opened { padding-top: 20px; padding-bottom: 50px; }
+  .note-card.opened .note-back {
+    display: flex;
+    opacity: 1;
+  }
+
+  /* 타이핑 커서 */
+  .typing-cursor {
+    display: inline-block;
+    width: 1.5px; height: 1em;
+    background: var(--text-mid);
+    margin-left: 1px;
+    vertical-align: middle;
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+
+  /* ─── WRITE OVERLAY ─── */
+  .overlay { position: fixed; inset: 0; z-index: 100; display: none; flex-direction: column; background: var(--warm-white); animation: slideUp 0.3s cubic-bezier(0.32,0.72,0,1); }
+  .overlay.open { display: flex; }
+  @keyframes slideUp { from { transform: translateY(100%); opacity: 0.5; } to { transform: translateY(0); opacity: 1; } }
+  .overlay-header { padding: 52px 20px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+  .overlay-title { font-family: 'Nanum Myeongjo', serif; font-size: 16px; font-weight: 700; color: var(--text-deep); }
+  .btn-close { background: none; border: none; font-size: 22px; color: var(--text-mid); cursor: pointer; padding: 4px; line-height: 1; }
+  .btn-save { background: var(--terracotta); color: white; border: none; border-radius: 10px; padding: 8px 18px; font-size: var(--text-sub); font-weight: 600; font-family: 'Pretendard', sans-serif; cursor: pointer; letter-spacing: -0.3px; transition: background 0.2s; }
+  .btn-save:active { background: var(--terracotta-muted); }
+  .write-area { flex: 1; padding: var(--space-md) var(--space-lg); overflow-y: auto; }
+  .write-area::-webkit-scrollbar { display: none; }
+  .write-textarea {
+    width: 100%; height: 132px;
+    background-color: transparent;
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 43px,
+      #DDD6CC 43px,
+      #DDD6CC 44px
+    );
+    border: none; border-radius: 0;
+    padding: 0 2px;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: var(--text-body); line-height: 44px;
+    color: var(--text-deep); resize: none; outline: none;
+    letter-spacing: 0px; box-sizing: border-box;
+    overflow-y: auto;
+  }
+  .write-textarea:focus { outline: none; }
+  .write-textarea::placeholder { color: var(--text-light); font-family: 'Pretendard', sans-serif; font-size: 15px; font-weight: 400; line-height: 44px; }
+  .tag-section { margin-top: 28px; padding-top: 0; border-top: none; transition: opacity 0.4s, transform 0.4s; }
+  .tag-section-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .tag-section-label { font-size: 12px; color: var(--text-light); letter-spacing: -0.2px; }
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag-cloud .tag { cursor: pointer; transition: all 0.15s; user-select: none; opacity: 0.65; }
+  .tag-cloud .tag:active { transform: scale(0.95); }
+  .tag-cloud .tag.selected { opacity: 1; box-shadow: 0 0 0 2px currentColor; }
+
+  /* ─── ONBOARDING ─── */
+  .onboarding {
+    position: fixed; inset: 0; z-index: 300;
+    background: var(--warm-white);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 48px 36px;
+    transition: opacity 0.5s ease;
+  }
+  .onboarding.hide {
+    opacity: 0; pointer-events: none;
+  }
+
+  .ob-slide { display: none; flex-direction: column; align-items: center; text-align: center; width: 100%; }
+  .ob-slide.active { display: flex; }
+
+  .ob-symbol {
+    margin-bottom: 40px; opacity: 0;
+    animation: obFadeUp 0.7s ease 0.2s forwards;
+  }
+
+  .ob-text {
+    opacity: 0;
+    animation: obFadeUp 0.7s ease 0.4s forwards;
+  }
+
+  .ob-main {
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 22px; font-weight: 700;
+    color: var(--text-deep); line-height: var(--line-height);
+    letter-spacing: -0.5px; margin-bottom: 16px;
+  }
+
+  .ob-sub {
+    font-size: var(--text-caption); color: var(--text-light);
+    line-height: 1.8; letter-spacing: -0.2px;
+  }
+
+  .ob-dots {
+    display: flex; gap: 6px;
+    margin-top: 48px;
+    opacity: 0; animation: obFadeUp 0.5s ease 0.6s forwards;
+  }
+
+  .ob-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border); transition: background 0.3s, width 0.3s;
+  }
+  .ob-dot.active { background: #C4714A; width: 18px; border-radius: 3px; }
+
+  .ob-btn {
+    margin-top: 40px; width: 100%;
+    background: #C4714A; color: white;
+    border: none; border-radius: var(--radius-xl); padding: 16px;
+    font-size: 15px; font-weight: 600;
+    font-family: 'Pretendard', sans-serif;
+    letter-spacing: -0.3px; cursor: pointer;
+    opacity: 0; animation: obFadeUp 0.5s ease 0.6s forwards;
+    transition: background 0.2s, transform 0.1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .ob-btn:active { transform: scale(0.98); }
+
+  .ob-skip {
+    position: absolute; top: 52px; right: 28px;
+    font-size: var(--text-caption); color: var(--text-light);
+    cursor: pointer; letter-spacing: -0.2px;
+    background: none; border: none;
+    font-family: 'Pretendard', sans-serif;
+  }
+
+  @keyframes obFadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  /* ─── 놓아주기 ─── */
+  .btn-release {
+    background: none; border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 8px 16px;
+    font-size: var(--text-sub); font-weight: 500; color: var(--text-light);
+    font-family: 'Pretendard', sans-serif;
+    cursor: pointer; letter-spacing: -0.3px; transition: all 0.2s;
+  }
+  .btn-release:active { border-color: #68A357; color: #68A357; transform: scale(0.97); }
+
+  .scatter-particle {
+    position: fixed; pointer-events: none; z-index: 500;
+    font-family: 'Nanum Myeongjo', serif;
+    color: var(--text-light); font-size: var(--text-caption);
+    animation: scatterAway 1.6s ease forwards;
+  }
+  @keyframes scatterAway {
+    0%   { opacity: 0.8; transform: translate(0,0) scale(1) rotate(0deg); }
+    100% { opacity: 0; transform: translate(var(--tx),var(--ty)) scale(0.2) rotate(var(--rot)); }
+  }
+
+  .release-done {
+    position: fixed; inset: 0; z-index: 400;
+    background: var(--warm-white);
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 20px; text-align: center; padding: 48px;
+  }
+  .release-done.show { display: flex; }
+  .release-done-symbol { opacity: 0; animation: releaseFadeIn 0.7s ease 0.2s forwards; }
+  .release-done-text {
+    font-family: 'Nanum Myeongjo', serif; font-size: 20px; font-weight: 700;
+    color: var(--text-deep); letter-spacing: -0.3px; line-height: 1.6;
+    opacity: 0; animation: releaseFadeIn 0.7s ease 0.5s forwards;
+  }
+  .release-done-sub {
+    font-size: var(--text-caption); color: var(--text-light); letter-spacing: -0.2px; line-height: 1.8;
+    opacity: 0; animation: releaseFadeIn 0.7s ease 0.7s forwards;
+  }
+  @keyframes releaseFadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .toast { position: fixed; bottom: 160px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--text-deep); color: white; padding: 12px 22px; border-radius: 24px; font-size: var(--text-caption); font-weight: 500; letter-spacing: -0.2px; opacity: 0; transition: opacity 0.25s, transform 0.25s; z-index: 200; white-space: nowrap; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* ─── BOTTOM NAV ─── */
+  .bottom-nav { height: 80px; background: var(--warm-white); display: flex; align-items: center; justify-content: space-around; padding: 0 16px; padding-bottom: env(safe-area-inset-bottom); flex-shrink: 0; border-top: 1px solid rgba(196,113,74,0.1); box-shadow: 0 -4px 20px rgba(104,163,87,0.06); }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; padding: 10px 0 6px; transition: opacity 0.15s; }
+  .nav-icon { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
+  .nav-icon svg { width: 24px; height: 24px; stroke: var(--text-light); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: stroke 0.2s, stroke-width 0.2s; }
+  .nav-item.active .nav-icon svg { stroke: #7AAD3A; stroke-width: 1.9; }
+  .nav-label { font-size: 10px; font-weight: 500; color: var(--text-light); letter-spacing: -0.2px; transition: color 0.2s, font-weight 0.2s; }
+  .nav-item.active .nav-label { color: #7AAD3A; font-weight: 700; letter-spacing: -0.3px; }
+  .nav-item.active .nav-icon { background: rgba(122,173,58,0.18); border-radius: 12px; width: 44px; height: 28px; transform: scale(1.03); }
+
+  /* ─── FAB ─── */
+
+  /* ─── EMPTY ─── */
+  .empty-state { text-align: center; padding: 48px 32px; }
+  .empty-icon { font-size: 40px; margin-bottom: 16px; opacity: 0.4; }
+  .empty-text { font-size: var(--text-sub); color: var(--text-light); line-height: 1.6; letter-spacing: -0.2px; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.4s ease forwards; }
+
+  @media (min-width: 430px) {
+    #app { box-shadow: 0 0 40px rgba(58,46,40,0.12); }
+  }
+</style>
+</head>
+<body>
+<!-- ONBOARDING -->
+<div class="onboarding" id="onboarding">
+  <button class="ob-skip" onclick="finishOnboarding()">건너뛰기</button>
+
+  <!-- 1장 -->
+  <div class="ob-slide active" id="ob-1">
+    <div class="ob-symbol">
+      <svg viewBox="0 0 160 60" width="200" height="75" fill="none">
+        <text x="8" y="42" font-family="Pretendard, sans-serif" font-size="36" font-weight="700"
+          fill="#2C2420" letter-spacing="-2">마음 툭</text>
+        <line x1="108" y1="36" x2="148" y2="36"
+          stroke="#2C2420" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+        <circle cx="157" cy="36" r="7" fill="#F5D445" opacity="0.95"/>
+      </svg>
+    </div>
+    <div class="ob-text">
+      <div class="ob-main">마음이 복잡한 날,<br>잘 써야 한다는 부담 없이<br>그냥 툭, 꺼내놓는 곳이에요.</div>
+      <div class="ob-sub">기록이 아니라 숨 한번 내쉬는 것처럼요.</div>
+    </div>
+    <button class="ob-btn" onclick="nextObSlide()">다음</button>
+  </div>
+
+  <!-- 2장 -->
+  <div class="ob-slide" id="ob-2">
+    <div class="ob-symbol">
+      <svg viewBox="0 0 160 80" width="200" height="100">
+        <!-- 파동 -->
+        <path d="M10 50 Q25 20 40 50 Q55 80 70 50 Q85 20 100 50 Q115 80 130 50 Q145 20 155 50"
+          fill="none" stroke="#D8E8DC" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+        <!-- 점들 (눈처럼 — 파동마다 감정이 있어요) -->
+        <circle cx="28" cy="34" r="2.8" fill="#A8C870" opacity="0.65"/>
+        <circle cx="36" cy="30" r="2.8" fill="#A8C870" opacity="0.65"/>
+        <circle cx="73" cy="34" r="2.8" fill="#A8C870" opacity="0.65"/>
+        <circle cx="81" cy="30" r="2.8" fill="#A8C870" opacity="0.65"/>
+        <circle cx="118" cy="34" r="2.8" fill="#A8C870" opacity="0.65"/>
+        <circle cx="126" cy="30" r="2.8" fill="#A8C870" opacity="0.65"/>
+      </svg>
+    </div>
+    <div class="ob-text">
+      <div class="ob-main">세상의 모든 것은 진동해요.<br>당신 마음의 진동도<br>당연해요.</div>
+      <div class="ob-sub">기쁨도, 슬픔도, 불안도, 무기력도<br>모두 자연스러운 마음의 움직임이에요.</div>
+    </div>
+    <button class="ob-btn" onclick="nextObSlide()">다음</button>
+  </div>
+
+  <!-- 3장 -->
+  <div class="ob-slide" id="ob-3">
+    <div class="ob-symbol">
+      <svg viewBox="0 0 160 60" width="200" height="75" fill="none">
+        <text x="8" y="42" font-family="Pretendard, sans-serif" font-size="36" font-weight="700"
+          fill="#2C2420" letter-spacing="-2">마음 툭</text>
+        <line x1="108" y1="36" x2="148" y2="36"
+          stroke="#2C2420" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
+        <circle cx="157" cy="36" r="7" fill="#F5D445" opacity="0.95"/>
+      </svg>
+    </div>
+    <div class="ob-text">
+      <div class="ob-main">지금, 시작해볼까요?</div>
+      <div class="ob-sub">언제든 생각날 때, 툭 꺼내놓으면 돼요.<br>여기서 기다릴게요.</div>
+    </div>
+    <button class="ob-btn" onclick="finishOnboarding()">
+      툭 남기기
+    </button>
+  </div>
+
+  <!-- 도트 인디케이터 -->
+  <div class="ob-dots">
+    <div class="ob-dot active" id="dot-1"></div>
+    <div class="ob-dot" id="dot-2"></div>
+    <div class="ob-dot" id="dot-3"></div>
+  </div>
+</div>
+
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="logo-area">
+        <div style="display:flex; align-items:center; gap:2px;">
+          <span style="
+            font-family:'Pretendard',sans-serif;
+            font-size:16px; font-weight:700;
+            color:var(--text-deep); letter-spacing:-0.5px;
+          ">마음 툭</span>
+          <svg viewBox="0 0 36 16" width="36" height="16" fill="none">
+            <line x1="2" y1="10" x2="26" y2="10"
+              stroke="#333333" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+            <circle cx="31" cy="10" r="3.5" fill="#F5D445" opacity="0.95"/>
+          </svg>
+        </div>
+      </div>
+      <!-- 설정 아이콘 -->
+      <button onclick="openSettings()" style="
+        background:none; border:none; cursor:pointer;
+        width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+        border-radius:50%; transition: background 0.15s;
+      " onmousedown="this.style.background='rgba(58,46,40,0.06)'" onmouseup="this.style.background='none'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </button>
+    </div>
+    <div class="header-greeting">
+      <div class="greeting-sub" id="greetingDate" style="margin-top:0; margin-bottom:2px;"></div>
+      <div class="greeting-text" id="greetingText">반가워요 ☀️</div>
+      <div style="font-size:13px; color:var(--text-mid); margin-top:6px; letter-spacing:-0.2px; font-family:'Pretendard',sans-serif;; margin-top:3px;" id="greetingSub"></div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- 지금 탭 -->
+    <div class="tab-content active" id="tab-now">
+
+      <!-- 오늘의 쪽지 — 페이드 + 타이핑 -->
+      <div style="padding: 28px 24px 0;">
+        <div class="note-card" id="noteCard" onclick="openNoteCard()">
+
+          <!-- -- . 데코 (항상 표시) -->
+          <div style="margin-bottom:8px;">
+            <svg viewBox="0 0 80 36" width="64" height="28" fill="none">
+              <line x1="4" y1="22" x2="54" y2="22"
+                stroke="#C4BAB0" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="66" cy="22" r="8" fill="#A8C870"/>
+            </svg>
+          </div>
+
+          <!-- 앞면 -->
+          <div class="note-front" id="noteFront">
+            <div style="font-size:var(--text-sub); color:rgba(47,47,47,0.85); font-weight:700; font-family:'Pretendard',sans-serif; letter-spacing:-0.3px;">오늘 마음 한 장</div>
+            <div style="font-size:11px; color:rgba(47,47,47,0.45); margin-top:4px; font-family:'Pretendard',sans-serif;">탭하면 펼쳐져요</div>
+          </div>
+          <!-- 뒷면 — 타이핑 -->
+          <div class="note-back" id="noteBack">
+            <div style="
+              font-family:'Pretendard',sans-serif;
+              font-size:16px; font-weight:500; line-height:1.8;
+              color:var(--text-deep); letter-spacing:-0.3px;
+              word-break:keep-all; width:100%;
+              text-align:center;
+            ">
+              <span id="comfortQuote"></span><span class="typing-cursor" id="typingCursor" style="display:none;"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 오늘 기록 -->
+      <div style="padding: var(--space-lg) var(--space-lg) 0;">
+        <div style="font-size:12px; font-weight:600; color:var(--text-light); letter-spacing:0.3px; margin-bottom:12px;">오늘의 기록</div>
+
+        <!-- 빈 상태 -->
+        <div id="todayEmpty" class="today-empty">
+          <img src="images/leaves.png" class="today-empty-icon" alt="" />
+          <div class="today-empty-text">
+            아직 오늘의 마음이 없어요.<br>조용히 떠오르는 한 조각이면 충분해요.
+          </div>
+          <button onclick="openOverlay()" class="today-empty-button">오늘의 첫 툭 남기기</button>
+        </div>
+
+        <!-- 기록 있을 때 -->
+        <div id="todayEntriesList"></div>
+      </div>
+      <div id="todayEntries" style="display:none;"></div>
+
+      <div class="scroll-pad" style="height: 80px;"></div>
+    </div>
+    <div class="tab-content" id="tab-log">
+      <!-- 헤더 + 필터칩 -->
+      <div style="padding: 28px var(--space-lg) var(--space-sm);">
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:var(--space-md);">
+          <div style="font-size:var(--text-section); font-weight:600; color:var(--text-deep); letter-spacing:-0.4px; font-family:'Pretendard',sans-serif;">툭로그</div>
+          <button onclick="toggleLogMenu()" style="
+            background:none; border:none; cursor:pointer;
+            padding:4px; color:var(--text-light);
+            font-size:18px; letter-spacing:1px;
+          ">⋯</button>
+        </div>
+
+        <!-- 필터칩 — 헤더 바로 아래 -->
+        <div class="filter-panel" id="filterPanel" style="
+          display:flex; flex-wrap:nowrap; gap:6px;
+          overflow-x:auto; padding-bottom:4px;
+        ">
+          <span class="filter-chip filter-chip-all active" onclick="setFilter('all',this)">모든 마음</span>
+        </div>
+
+        <!-- 검색 -->
+        <div class="search-box" id="searchBox" style="display:none; margin-top:var(--space-md);">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <input class="search-input" id="searchInput" type="text" placeholder="마음 속에서 찾아봐요..." oninput="onSearch()"/>
+          <button class="search-clear" id="searchClear" onclick="clearSearch()">✕</button>
+        </div>
+      </div>
+
+      <!-- 카운트 제거 -->
+      <div id="logResultCount" style="display:none;"></div>
+
+      <div class="log-section" id="logSection">
+        <div class="empty-state" id="logEmpty" style="display:none;">
+          <div style="margin-bottom:20px; opacity:0.3;">
+            <svg viewBox="0 0 80 36" width="64" height="28" fill="none" style="margin:0 auto;display:block;">
+              <line x1="4" y1="22" x2="54" y2="22" stroke="#333" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+              <circle cx="66" cy="22" r="8" fill="#A8C870" opacity="0.85"/>
+            </svg>
+          </div>
+          <div class="empty-text">아직 남겨둔 마음이 없어요.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 돌아보기 탭 -->
+    <div class="tab-content" id="tab-review">
+      <div class="review-section">
+
+        <!-- 빈 상태 -->
+        <div id="reviewEmpty" style="display:none; flex-direction:column; align-items:center; justify-content:center; padding: 60px 32px; text-align:center; min-height: 60vh; cursor:pointer;" onclick="switchTab('now')"  >
+          <div style="position:relative; width:72px; height:72px; margin-bottom:28px;">
+            <svg viewBox="0 0 72 72" fill="none" style="width:100%;height:100%;opacity:0.22;">
+              <circle cx="26" cy="26" r="17" fill="#A8C870"/>
+              <circle cx="46" cy="26" r="17" fill="#A8C870"/>
+              <circle cx="26" cy="46" r="17" fill="#A8C870"/>
+              <circle cx="46" cy="46" r="17" fill="#A8C870"/>
+              <rect x="34" y="52" width="4" height="14" rx="2" fill="#A8C870"/>
+            </svg>
+          </div>
+          <p style="font-family:'Nanum Myeongjo',serif; font-size:17px; font-weight:700; color:var(--text-deep); letter-spacing:-0.3px; line-height:1.5; margin-bottom:12px;">
+            아직 마음의 기록이 없어요.
+          </p>
+          <p style="font-size:var(--text-caption); color:var(--text-light); line-height:1.8; letter-spacing:-0.2px; margin-bottom:32px;">
+            툭, 꺼내놓은 것들이 쌓이면<br>요즘의 내가 보이기 시작해요.
+          </p>
+          <button onclick="openOverlay()" style="
+            display:flex; align-items:center; gap:8px;
+            background:var(--terracotta); color:white;
+            border:none; border-radius:var(--radius-lg);
+            padding:14px 24px;
+            font-size:var(--text-sub); font-weight:600;
+            font-family:'Pretendard',sans-serif;
+            letter-spacing:-0.3px; cursor:pointer;
+            transition: background 0.2s, transform 0.1s;
+          " onmousedown="this.style.transform='scale(0.97)'" onmouseup="this.style.transform='scale(1)'">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+            </svg>
+            지금 마음 툭
+          </button>
+        </div>
+
+        <!-- 본문 (기록 있을 때) -->
+        <div id="reviewBody" style="display:none;">
+
+          <!-- 섹션 헤더 -->
+          <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:28px;">
+            <div>
+              <div style="font-family:'Pretendard',sans-serif; font-size:var(--text-section); font-weight:700; color:var(--text-deep); letter-spacing:-0.5px; line-height:1.2;">요즘</div>
+              <div style="font-size:var(--text-caption); color:var(--text-light); margin-top:8px; letter-spacing:-0.2px; font-weight:400;" id="reviewPeriodLabel">이번 주 마음의 기록</div>
+            </div>
+            <div style="font-size:var(--text-caption); color:var(--text-light); letter-spacing:-0.2px; margin-top:6px; font-weight:500;" id="reviewEntryCount"></div>
+          </div>
+
+          <!-- 클로버 달력 -->
+          <div style="
+            background:var(--cream); border-radius:var(--radius-lg);
+            padding:20px 22px; border:1px solid var(--border);
+            margin-bottom:24px; box-shadow:0 2px 16px rgba(58,46,40,0.06);
+          ">
+            <div style="font-size:12px; font-weight:600; color:var(--text-light); letter-spacing:0.3px; margin-bottom:16px; text-transform:uppercase;">기록한 날들</div>
+            <div id="cloverCalendar"></div>
+          </div>
+
+          <!-- 자주 느낀 감정 바 차트 -->
+          <div style="
+            background:#FFFEFC; border-radius:var(--radius-lg);
+            padding:var(--space-lg); border:1px solid var(--border);
+            margin-bottom:var(--space-xl); box-shadow:var(--shadow);
+          ">
+            <div style="font-size:12px; font-weight:600; color:var(--text-light); letter-spacing:0.3px; margin-bottom:16px; text-transform:uppercase;">자주 느낀 감정과 키워드</div>
+            <div class="tag-cloud-review" id="reviewTagCloud"></div>
+          </div>
+
+          <!-- 룰 기반 요즘의 나 -->
+          <div style="
+            background:#FFFEFC; border-radius:var(--radius-lg);
+            padding:22px 24px; border:1px solid var(--border);
+            margin-bottom:var(--space-xl); box-shadow: var(--shadow);
+            position:relative; overflow:hidden;
+          ">
+            <div style="
+              position:absolute; top:0; left:0; right:0; height:3px;
+              background:linear-gradient(90deg, #D8E8DC, #D8E8DC);
+              border-radius:18px 18px 0 0;
+            "></div>
+            <div style="font-size:11px; font-weight:600; color:#D8E8DC; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:12px;">요즘의 나</div>
+            <div id="ruleSummary" style="
+              font-family:'Pretendard',sans-serif;
+              font-size:var(--text-body); color:var(--text-deep);
+              line-height:1.9; letter-spacing:-0.3px;
+              word-break:keep-all;
+            "></div>
+          </div>
+
+          <!-- 이번 주 돌아보기 (AI 연동 예정) -->
+          <div style="margin-bottom:var(--space-xl);">
+            <button onclick="weeklyReview()" style="
+              width:100%; padding:16px;
+              background:transparent; border:1px dashed #C3DEC6;
+              border-radius:var(--radius-lg);
+              font-size:var(--text-sub); font-weight:500; color:#4A7C3F;
+              font-family:'Pretendard',sans-serif; cursor:pointer;
+              letter-spacing:-0.2px; transition:all 0.2s;
+            ">이번 주 돌아보기</button>
+          </div>
+
+          <div class="scroll-pad"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 하단 고정 쓰기 버튼 (지금 탭에서만) -->
+  <div id="writeFixedBtn" style="
+    position: fixed; bottom: 104px;
+    left: 50%; transform: translateX(-50%);
+    z-index: 50; width: 100%; max-width: 430px;
+    display: flex; justify-content: center;
+    padding: 12px 24px;
+    background: transparent;
+    pointer-events: none;
+  ">
+    <button onclick="openOverlay()" style="
+      background: #A8C870; color: #2C4A1E;
+      border: none;
+      border-radius: var(--radius-xl); padding: 10px 26px;
+      font-size: var(--text-sub); font-weight: 600;
+      font-family: 'Pretendard', sans-serif;
+      cursor: pointer; letter-spacing: -0.2px;
+      display: flex; align-items: center; gap: 6px;
+      box-shadow: none;
+      transition: background 0.2s;
+      white-space: nowrap; pointer-events: auto;
+    ">
+      툭 남기기
+    </button>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchTab('now')" id="nav-now">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><polyline points="3 9.5 12 3 21 9.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h3v-5h6v5h3a1 1 0 0 0 1-1V9.5"/></svg></div>
+      <div class="nav-label">지금</div>
+    </div>
+    <div class="nav-item" onclick="switchTab('log')" id="nav-log">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2" fill="none"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+      <div class="nav-label">툭로그</div>
+    </div>
+    <div class="nav-item" onclick="switchTab('review')" id="nav-review">
+      <div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div>
+      <div class="nav-label">요즘</div>
+    </div>
+  </div>
+</div>
+
+<!-- WRITE OVERLAY -->
+<div class="overlay" id="writeOverlay">
+  <div class="overlay-header">
+    <div class="overlay-title" style="font-size:var(--text-sub); font-weight:500; color:var(--text-mid);">지금 마음 툭</div>
+    <button class="btn-close" onclick="closeOverlay()">✕</button>
+  </div>
+  <div class="write-area">
+    <!-- 입력 질문 -->
+    <div style="
+      font-size:var(--text-sub); font-weight:500;
+      color:var(--text-deep); letter-spacing:-0.3px;
+      margin-bottom:var(--space-sm);
+      font-family:'Pretendard',sans-serif;
+    ">뭐든 괜찮아요, 떠오르는 대로 툭.</div>
+
+    <!-- 입력창 -->
+    <textarea class="write-textarea" id="writeInput"
+      rows="3" oninput="onWriteInput()"></textarea>
+
+    <!-- 태그 섹션 -->
+    <div class="tag-section" id="tagSection">
+      <div style="font-size:11px; color:rgba(47,47,47,0.38); letter-spacing:0px; font-family:'Pretendard',sans-serif; margin-bottom:14px;">이 순간을 남기는 단어들 <span style="opacity:0.5;">(선택)</span></div>
+
+      <!-- 선택된 태그 목록 -->
+      <div id="customTagList" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;"></div>
+
+      <!-- 랜덤 추천 태그 영역 -->
+      <div id="randomTagArea" style="display:none; flex-wrap:wrap; gap:8px; row-gap:10px; margin-bottom:14px;"></div>
+
+      <!-- 샘플 태그 + 툭 태그 추천 + 직접 입력 칩 -->
+      <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px; row-gap:10px;">
+        <!-- 툭 태그 추천 칩 -->
+        <span onclick="showRandomTags()" style="
+          display:inline-flex; align-items:center; gap:4px;
+          background:#EEF5E6; color:#4A7C3F;
+          border-radius:20px; padding:5px 12px;
+          font-size:12px; font-family:'Pretendard',sans-serif;
+          cursor:pointer; letter-spacing:-0.2px;
+          border:1px solid #C3DEC6;
+          transition:all 0.15s;
+        ">↻ 툭 태그 추천</span>
+
+        <!-- + 직접 입력 칩 -->
+        <span id="addTagChip" onclick="toggleCustomTagInput()" style="
+          display:inline-flex; align-items:center; gap:4px;
+          background:var(--tag-default-bg); color:#7A746E;
+          border-radius:20px; padding:5px 12px;
+          font-size:12px; font-family:'Pretendard',sans-serif;
+          cursor:pointer; letter-spacing:-0.2px;
+          border:1px solid #D5CEC8;
+          transition:all 0.15s;
+        ">+ 직접 입력</span>
+
+        <!-- 숨겨진 입력창 -->
+        <div id="customTagInputWrap" style="display:none; align-items:center; gap:4px;">
+          <input id="customTagInput" type="text" placeholder="단어 입력 후 엔터"
+            maxlength="10"
+            style="
+              border:none; border-bottom:1px solid var(--border);
+              background:transparent; font-family:'Pretendard',sans-serif;
+              font-size:12px; color:var(--text-deep); outline:none;
+              width:90px; letter-spacing:-0.2px; padding:2px 0;
+            "
+            onkeydown="handleCustomTag(event)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 하단 버튼 바 -->
+  <div style="
+    display:flex; gap:8px; padding:10px var(--space-lg);
+    padding-bottom: calc(10px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--border);
+    background:var(--warm-white); flex-shrink:0;
+    align-items:center;
+  ">
+    <button onclick="releaseEntry()" style="
+      flex:1; padding:12px;
+      background:transparent; border:1px solid #DDD6CE;
+      border-radius:var(--radius-xl);
+      font-size:var(--text-caption); font-weight:400; color:#7A746E;
+      font-family:'Pretendard',sans-serif; cursor:pointer;
+      letter-spacing:-0.2px; transition:all 0.2s;
+    ">흘려보내기</button>
+    <button onclick="saveEntry()" style="
+      flex:2; padding:12px;
+      background: #A8C870; border:none;
+      border-radius:var(--radius-xl);
+      font-size:var(--text-caption); font-weight:600; color:#2C4A1E;
+      font-family:'Pretendard',sans-serif; cursor:pointer;
+      letter-spacing:-0.2px; transition:all 0.2s;
+      box-shadow: none;
+    ">툭 남기기</button>
+  </div>
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+<!-- 수정/삭제 메뉴 -->
+<div id="entryMenuOverlay" onclick="closeEntryMenu()" style="
+  position:fixed; inset:0; z-index:250;
+  background:rgba(58,46,40,0.25);
+  display:none; align-items:flex-end; justify-content:center;
+  backdrop-filter:blur(2px);
+">
+  <div onclick="event.stopPropagation()" style="
+    width:100%; max-width:430px;
+    background:var(--warm-white);
+    border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+    padding:12px 0 40px;
+  ">
+    <div style="width:32px;height:3px;background:var(--border);border-radius:2px;margin:0 auto 20px;"></div>
+
+    <!-- 수정 -->
+    <div onclick="openEditEntry()" style="
+      display:flex;align-items:center;gap:14px;
+      padding:16px 24px;cursor:pointer;transition:background 0.15s;
+    " onmousedown="this.style.background='var(--cream)'" onmouseup="this.style.background='none'">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-mid)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+      </svg>
+      <div style="font-size:16px;color:var(--text-deep);letter-spacing:-0.3px;">수정하기</div>
+    </div>
+
+    <!-- 삭제 -->
+    <div onclick="deleteEntry()" style="
+      display:flex;align-items:center;gap:14px;
+      padding:16px 24px;cursor:pointer;transition:background 0.15s;
+    " onmousedown="this.style.background='#FEF5F5'" onmouseup="this.style.background='none'">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/>
+      </svg>
+      <div style="font-size:16px;color:#C0392B;letter-spacing:-0.3px;">삭제하기</div>
+    </div>
+  </div>
+</div>
+
+<!-- 수정 오버레이 -->
+<div id="editOverlay" style="
+  position:fixed; inset:0; z-index:260;
+  background:var(--warm-white);
+  display:none; flex-direction:column;
+  animation:slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
+">
+  <div style="padding:52px 20px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);flex-shrink:0;">
+    <div style="font-family:'Nanum Myeongjo',serif;font-size:16px;font-weight:700;color:var(--text-deep);">기록 수정</div>
+    <div style="display:flex;gap:10px;align-items:center;">
+      <button onclick="closeEditEntry()" style="background:none;border:none;font-size:22px;color:var(--text-mid);cursor:pointer;padding:4px;line-height:1;">✕</button>
+      <button onclick="saveEditEntry()" style="background:var(--terracotta);color:white;border:none;border-radius:10px;padding:8px 18px;font-size:var(--text-sub);font-weight:600;font-family:'Pretendard',sans-serif;cursor:pointer;letter-spacing:-0.3px;">저장</button>
+    </div>
+  </div>
+  <div style="flex:1;padding:20px 24px;overflow-y:auto;">
+    <textarea id="editInput" style="
+      width:100%;min-height:200px;border:none;background:transparent;
+      font-family:'Nanum Myeongjo',serif;font-size:var(--text-body);
+      line-height:var(--line-height);color:var(--text-deep);resize:none;outline:none;
+      letter-spacing:0px; word-break:keep-all;
+    "></textarea>
+  </div>
+</div>
+
+<!-- 저장 후 반응 바텀시트 -->
+<div id="saveResponseSheet" style="
+  position:fixed; inset:0; z-index:250;
+  display:none; align-items:flex-end; justify-content:center;
+">
+  <div id="saveResponseInner" style="
+    width:100%; max-width:430px;
+    background:var(--warm-white);
+    border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+    padding:var(--space-lg) var(--space-lg) 44px;
+    transform:translateY(100%);
+    transition:transform 0.35s cubic-bezier(0.32,0.72,0,1);
+  ">
+    <!-- 핸들 -->
+    <div style="width:32px;height:3px;background:var(--border);border-radius:2px;margin:0 auto 20px;"></div>
+
+    <!-- 공감 문구 -->
+    <div id="saveResponseLine1" style="
+      font-family:'Nanum Myeongjo',serif;
+      font-size:17px; font-weight:700;
+      color:var(--text-deep); line-height:var(--line-height);
+      letter-spacing:-0.4px; margin-bottom:6px;
+      text-align:center;
+    "></div>
+    <div id="saveResponseLine2" style="
+      font-size:var(--text-caption); color:var(--text-light);
+      letter-spacing:-0.2px; line-height:1.6;
+      text-align:center; margin-bottom:24px;
+    "></div>
+
+    <!-- 나에게 한마디 -->
+    <div style="font-size:12px; font-weight:600; color:var(--text-light); letter-spacing:0.3px; text-transform:uppercase; margin-bottom:12px;">나에게 한마디</div>
+    <div id="selfWordCards" style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;"></div>
+
+    <!-- 직접 입력 -->
+    <div id="selfWordDirectWrap" style="margin-top:4px;">
+      <button id="selfWordDirectTrigger" onclick="toggleSelfWordInput()" style="
+        width:100%; background:none;
+        border:1.5px dashed rgba(168,200,112,0.5);
+        border-radius:18px; padding:14px 20px;
+        font-size:var(--text-caption); color:var(--mint-text);
+        font-family:'Pretendard',sans-serif;
+        cursor:pointer; letter-spacing:-0.2px;
+        transition:all 0.15s;
+      ">+ 직접 입력</button>
+      <div id="selfWordInputWrap" style="
+        display:none; flex-direction:column; gap:10px;
+        background:rgba(255,255,255,0.95);
+        border:1px solid rgba(168,200,112,0.3);
+        border-radius:18px; padding:16px 18px;
+        margin-top:4px;
+      ">
+        <input id="selfWordInput" type="text"
+          placeholder="나에게 하고 싶은 말을 써봐요"
+          maxlength="40"
+          onkeydown="if(event.key==='Enter')submitSelfWordDirect()"
+          style="
+            border:none; border-bottom:1px solid rgba(70,60,50,0.12);
+            background:transparent; padding:8px 2px;
+            font-size:15px; color:var(--text-deep); outline:none;
+            font-family:'Pretendard',sans-serif; letter-spacing:-0.2px;
+            width:100%;
+          "/>
+        <button onclick="submitSelfWordDirect()" style="
+          align-self:flex-end;
+          background:#A8C870; border:none;
+          border-radius:999px; padding:8px 20px;
+          font-size:12px; font-weight:600; color:#2C4A1E;
+          font-family:'Pretendard',sans-serif; cursor:pointer;
+          letter-spacing:-0.3px; transition:transform 0.1s;
+        ">남기기</button>
+      </div>
+    </div>
+
+    <!-- 건너뛰기 -->
+    <button onclick="closeSaveResponse()" style="
+      width:100%; background:none; border:none;
+      font-size:var(--text-caption); color:var(--text-light);
+      font-family:'Pretendard',sans-serif;
+      cursor:pointer; padding:8px; letter-spacing:-0.2px;
+    ">건너뛰기</button>
+  </div>
+</div>
+
+<!-- 설정 화면 -->
+<div id="settingsScreen" style="
+  position:fixed; inset:0; z-index:200;
+  background:var(--warm-white);
+  display:none; flex-direction:column;
+  animation:slideUp 0.3s cubic-bezier(0.32,0.72,0,1);
+">
+  <!-- 헤더 -->
+  <div style="
+    padding:52px 24px 16px;
+    display:flex; align-items:center; gap:12px;
+    border-bottom:1px solid var(--border);
+    flex-shrink:0;
+  ">
+    <button onclick="closeSettings()" style="
+      background:none;border:none;cursor:pointer;
+      padding:4px;color:var(--text-mid);font-size:22px;line-height:1;
+    ">✕</button>
+    <div style="font-family:'Nanum Myeongjo',serif;font-size:18px;font-weight:700;color:var(--text-deep);letter-spacing:-0.3px;">설정</div>
+  </div>
+
+  <!-- 메뉴 -->
+  <div style="flex:1;overflow-y:auto;padding:16px 0;">
+
+    <!-- 섹션: 앱 -->
+    <div style="padding:0 24px;margin-bottom:20px;">
+      <div style="font-size:11px;font-weight:600;color:var(--text-light);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:12px;">앱</div>
+
+      <div onclick="resetOnboarding()" style="
+        display:flex;align-items:center;gap:14px;
+        padding:14px 16px;background:#FFFEFC;
+        border-radius:var(--radius-md);cursor:pointer;
+        border:1px solid var(--border);margin-bottom:10px;
+        transition:transform 0.15s;
+      " onmousedown="this.style.transform='scale(0.99)'" onmouseup="this.style.transform='scale(1)'">
+        <div style="width:38px;height:38px;background:var(--warm-white);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;color:var(--text-deep);letter-spacing:-0.3px;font-weight:500;">처음 화면 다시 보기</div>
+          <div style="font-size:12px;color:var(--text-light);margin-top:3px;letter-spacing:-0.2px;">앱 소개를 다시 볼 수 있어요</div>
+        </div>
+        <svg style="margin-left:auto;flex-shrink:0;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+    </div>
+
+    <!-- 섹션: 알림 -->
+    <div style="padding:0 24px;margin-bottom:20px;">
+      <div style="font-size:11px;font-weight:600;color:var(--text-light);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:12px;">알림</div>
+
+      <!-- 매일 알림 토글 -->
+      <div style="
+        display:flex;align-items:center;gap:14px;
+        padding:14px 16px;background:var(--cream);
+        border-radius:var(--radius-md);border:1px solid var(--border);margin-bottom:10px;
+      ">
+        <div style="width:38px;height:38px;background:var(--warm-white);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--terracotta)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:15px;color:var(--text-deep);letter-spacing:-0.3px;font-weight:500;">매일 알림</div>
+          <div style="font-size:12px;color:var(--text-light);margin-top:3px;letter-spacing:-0.2px;">하루 한 번 조용히 알려드려요</div>
+        </div>
+        <!-- 토글 스위치 껍데기 -->
+        <div onclick="showComingSoon()" style="
+          width:44px;height:26px;border-radius:13px;
+          background:var(--border);position:relative;cursor:pointer;
+          transition:background 0.2s; flex-shrink:0;
+        " id="notifToggle">
+          <div style="
+            width:22px;height:22px;border-radius:50%;
+            background:white;position:absolute;top:2px;left:2px;
+            box-shadow:0 1px 4px rgba(0,0,0,0.15);
+            transition:left 0.2s;
+          " id="notifThumb"></div>
+        </div>
+      </div>
+
+      <!-- 알림 시간 -->
+      <div onclick="showComingSoon()" style="
+        display:flex;align-items:center;gap:14px;
+        padding:14px 16px;background:var(--cream);
+        border-radius:var(--radius-md);border:1px solid var(--border);
+        opacity:0.5;cursor:pointer;
+      ">
+        <div style="width:38px;height:38px;background:var(--warm-white);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-mid)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:15px;color:var(--text-deep);letter-spacing:-0.3px;font-weight:500;">알림 시간</div>
+          <div style="font-size:12px;color:var(--text-light);margin-top:3px;letter-spacing:-0.2px;">오후 9:00</div>
+        </div>
+        <svg style="margin-left:auto;flex-shrink:0;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding:0 4px;letter-spacing:-0.1px;line-height:1.6;">
+        알림 기능은 앱 출시 후 사용할 수 있어요.
+      </div>
+    </div>
+
+    <!-- 섹션: 데이터 -->
+    <div style="padding:0 24px;margin-bottom:20px;">
+      <div style="font-size:11px;font-weight:600;color:var(--text-light);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:12px;">데이터</div>
+
+      <!-- 기록 내보내기 -->
+      <div onclick="showComingSoon()" style="
+        display:flex;align-items:center;gap:14px;
+        padding:14px 16px;background:#FFFEFC;
+        border-radius:var(--radius-md);cursor:pointer;
+        border:1px solid var(--border);margin-bottom:10px;
+        opacity:0.5;
+        transition:transform 0.15s;
+      ">
+        <div style="width:38px;height:38px;background:var(--warm-white);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:15px;color:var(--text-deep);letter-spacing:-0.3px;font-weight:500;">기록 내보내기</div>
+          <div style="font-size:12px;color:var(--text-light);margin-top:3px;letter-spacing:-0.2px;">내 기록을 파일로 저장해요</div>
+        </div>
+        <svg style="margin-left:auto;flex-shrink:0;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </div>
+
+      <!-- 기록 전체 삭제 -->
+      <div onclick="clearAllEntries()" style="
+        display:flex;align-items:center;gap:14px;
+        padding:14px 16px;background:#FEF5F5;
+        border-radius:var(--radius-md);cursor:pointer;
+        border:1px solid rgba(192,57,43,0.15);
+        transition:transform 0.15s;
+      " onmousedown="this.style.transform='scale(0.99)'" onmouseup="this.style.transform='scale(1)'">
+        <div style="width:38px;height:38px;background:var(--warm-white);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size:15px;color:#C0392B;letter-spacing:-0.3px;font-weight:500;">기록 전체 삭제</div>
+          <div style="font-size:12px;color:var(--text-light);margin-top:3px;letter-spacing:-0.2px;">삭제된 기록은 복구할 수 없어요</div>
+        </div>
+      </div>
+
+      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding:0 4px;letter-spacing:-0.1px;line-height:1.6;">
+        내보내기 기능은 앱 출시 후 사용할 수 있어요.
+      </div>
+    </div>
+
+    <!-- 앱 정보 -->
+    <div style="padding:0 24px;margin-bottom:24px;">
+      <div style="font-size:11px;font-weight:600;color:var(--text-light);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:12px;">정보</div>
+
+      <div style="
+        padding:32px 24px 28px;
+        background:#FFFEFC; border-radius:var(--radius-md);
+        border:1px solid var(--border); text-align:center;
+      ">
+        <!-- 파문 + 점 심볼 -->
+        <div style="display:flex;align-items:center;justify-content:center;margin-bottom:20px;">
+          <svg viewBox="0 0 90 20" width="90" height="20" fill="none">
+            <path d="M4 10 Q12 4 20 10 Q28 16 36 10 Q44 4 52 10" stroke="#C8C0B4" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <circle cx="72" cy="10" r="8" fill="#A8C870" opacity="0.85"/>
+          </svg>
+        </div>
+        <div style="font-family:'Nanum Myeongjo',serif;font-size:18px;font-weight:700;color:var(--text-deep);letter-spacing:-0.3px;margin-bottom:8px;">마음, 툭</div>
+        <div style="font-size:12px;color:var(--text-light);line-height:1.8;letter-spacing:-0.1px;">조용히, 그냥 툭 꺼내놓는 곳</div>
+        <div style="font-size:11px;color:var(--text-light);opacity:0.4;margin-top:16px;">v1.0.0 preview</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 놓아주기 완료 화면 -->
+<div class="release-done" id="releaseDone">
+  <div class="release-done-symbol">
+    <svg viewBox="0 0 120 48" width="120" height="48" fill="none">
+      <line x1="10" y1="30" x2="76" y2="30"
+        stroke="#3D3A36" stroke-width="2" stroke-linecap="round" opacity="0.25"/>
+      <circle cx="96" cy="30" r="10" fill="#A8C870" opacity="0.7"/>
+    </svg>
+  </div>
+  <div class="release-done-text">툭, 흘려보냈어요.</div>
+  <div class="release-done-sub">꺼내놓은 것만으로<br>충분해요.</div>
+</div>
+
+<script>
+const TOAST_MESSAGES = [
+  '잘 받았어요',
+  '꺼내줘서 고마워요',
+  '오늘도 여기 있어요',
+  '잘 들었어요',
+];
+
+const COMFORT_QUOTES = [
+  { text: "그때도 버텼네요. 잘 버텼어요, 정말로." },
+  { text: "오늘 하루를 살아냈다는 것만으로도 충분해요." },
+  { text: "완벽하지 않아도 괜찮아요. 지금 충분히 잘하고 있어요." },
+  { text: "힘든 감정도 오래 머물지 않아요. 지나가고 있는 중이에요." },
+  { text: "서두르지 않아도 돼요. 당신의 속도로 가면 충분해요." },
+  { text: "울어도 괜찮아요. 그게 당신이 강하다는 뜻이에요." },
+  { text: "아무것도 하기 싫은 날도, 그게 하루였어요." },
+  { text: "그 짐을 혼자 다 들고 다녔군요. 내려놓아도 돼요." },
+  { text: "오늘 하루도 애썼어요." },
+  { text: "혼자가 아니에요. 여기 있어요." },
+  { text: "지금 이 자리에서 잘하고 있어요." },
+];
+
+const TAG_POOL = [
+  ['지침','peach'], ['떨림','blue'], ['멍함','green'], ['불안','blue'],
+  ['비오는 날','blue'], ['소소한 행복','green'], ['따뜻한 커피','green'],
+  ['버팀','green'], ['새출발','peach'], ['일상','green'], ['위안필요','peach'],
+  ['기대됨','peach'], ['아쉬움','blue'], ['뿌듯함','green'],
+  ['그리움','blue'], ['복잡함','blue'], ['홀가분함','green'],
+  ['설렘','peach'], ['감사함','green'], ['쉬고싶음','blue'],
+  ['무기력','blue'], ['작은 용기','green'], ['혼자만의 시간','blue'],
+  ['오늘 하루','peach'], ['위로','peach'], ['그럼에도','green'],
+];
+
+function saveToStorage() {
+  localStorage.setItem('maumtuk_entries', JSON.stringify(entries));
+}
+
+function loadFromStorage() {
+  try {
+    const saved = localStorage.getItem('maumtuk_entries');
+    return saved ? JSON.parse(saved) : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+let entries = loadFromStorage();
+
+let activeFilter = 'all';
+let searchQuery = '';
+
+// ─── INIT ──────────────────────────────────────────
+function updateReviewNudge() {} // 제거됨
+
+function renderPastRecall() {
+  const card = document.getElementById('pastRecallCard');
+  if (!card) return;
+  if (entries.length < 2) { card.style.display = 'none'; return; }
+  const now = new Date();
+  const candidates = entries.filter(e => {
+    const parts = e.date.match(/(\d+)월 (\d+)일/);
+    if (!parts) return false;
+    const d = new Date(now.getFullYear(), parseInt(parts[1])-1, parseInt(parts[2]));
+    const diff = Math.floor((now - d) / (1000*60*60*24));
+    return diff >= 2 && diff <= 7;
+  });
+  if (!candidates.length) { card.style.display = 'none'; return; }
+  const picked = candidates[Math.floor(Math.random() * candidates.length)];
+  const parts = picked.date.match(/(\d+)월 (\d+)일/);
+  const d = new Date(now.getFullYear(), parseInt(parts[1])-1, parseInt(parts[2]));
+  const diff = Math.floor((now - d) / (1000*60*60*24));
+  const dayLabel = diff === 2 ? '이틀 전' : diff === 3 ? '사흘 전' : `${diff}일 전`;
+  document.getElementById('pastRecallDate').textContent = `${dayLabel} · ${picked.time}`;
+  document.getElementById('pastRecallText').textContent = picked.text;
+  card.style.display = 'block';
+}
+
+// ─── ONBOARDING ──────────────────────────────────
+let obCurrent = 1;
+const OB_TOTAL = 3;
+
+function initOnboarding() {
+  const seen = localStorage.getItem('maumtuk_onboarded');
+  if (seen) {
+    document.getElementById('onboarding').style.display = 'none';
+    return;
+  }
+  // 터치로 슬라이드 넘기기
+  const ob = document.getElementById('onboarding');
+  let startX = 0;
+  ob.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  ob.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? nextObSlide() : prevObSlide();
+  }, { passive: true });
+  // 클릭으로도 넘기기 (3장 제외)
+  ob.addEventListener('click', e => {
+    if (e.target.closest('.ob-btn') || e.target.closest('.ob-skip')) return;
+    if (obCurrent < OB_TOTAL) nextObSlide();
+  });
+}
+
+function nextObSlide() {
+  if (obCurrent >= OB_TOTAL) return;
+  goObSlide(obCurrent + 1);
+}
+
+function prevObSlide() {
+  if (obCurrent <= 1) return;
+  goObSlide(obCurrent - 1);
+}
+
+function goObSlide(n) {
+  document.getElementById(`ob-${obCurrent}`).classList.remove('active');
+  document.getElementById(`dot-${obCurrent}`).classList.remove('active');
+  obCurrent = n;
+  const slide = document.getElementById(`ob-${obCurrent}`);
+  slide.classList.add('active');
+  // 애니메이션 리셋
+  slide.querySelectorAll('.ob-symbol, .ob-text, .ob-dots, .ob-btn').forEach(el => {
+    el.style.animation = 'none';
+    el.offsetHeight;
+    el.style.animation = '';
+  });
+  document.getElementById(`dot-${obCurrent}`).classList.add('active');
+}
+
+function finishOnboarding() {
+  try { localStorage.setItem('maumtuk_onboarded', '1'); } catch(e) {}
+  const ob = document.getElementById('onboarding');
+  ob.classList.add('hide');
+  setTimeout(() => ob.style.display = 'none', 500);
+}
+
+// ─── 수정 / 삭제 ──────────────────────────────────
+let releasedDates = new Set();
+
+
+
+function openEntryMenu(el) {
+  selectedEntryIndex = parseInt(el.dataset.entryIndex);
+  // 햅틱 피드백 (지원 시)
+  if (navigator.vibrate) navigator.vibrate(30);
+  document.getElementById('entryMenuOverlay').style.display = 'flex';
+}
+
+function closeEntryMenu() {
+  document.getElementById('entryMenuOverlay').style.display = 'none';
+  selectedEntryIndex = -1;
+}
+
+function openEditEntry() {
+  closeEntryMenu();
+  if (selectedEntryIndex < 0) return;
+  document.getElementById('editInput').value = entries[selectedEntryIndex].text;
+  document.getElementById('editOverlay').style.display = 'flex';
+}
+
+function closeEditEntry() {
+  document.getElementById('editOverlay').style.display = 'none';
+}
+
+function saveEditEntry() {
+  const text = document.getElementById('editInput').value.trim();
+  if (!text || selectedEntryIndex < 0) return;
+  entries[selectedEntryIndex].text = text;
+  saveToStorage();
+  closeEditEntry();
+  renderLog();
+  const t = document.getElementById('toast');
+  t.textContent = '수정됐어요';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function deleteEntry() {
+  if (selectedEntryIndex < 0) return;
+  if (!confirm('이 기록을 삭제할까요?')) return;
+  entries.splice(selectedEntryIndex, 1);
+  saveToStorage();
+  closeEntryMenu();
+  renderLog();
+  const t = document.getElementById('toast');
+  t.textContent = '삭제됐어요';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─── 설정 ──────────────────────────────────────────
+function showComingSoon() {
+  const t = document.getElementById('toast');
+  t.textContent = '곧 사용할 수 있어요';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function openSettings() {
+  const screen = document.getElementById('settingsScreen');
+  screen.style.display = 'flex';
+}
+
+function closeSettings() {
+  document.getElementById('settingsScreen').style.display = 'none';
+}
+
+function resetOnboarding() {
+  try { localStorage.removeItem('maumtuk_onboarded'); } catch(e) {}
+  closeSettings();
+  setTimeout(() => {
+    const ob = document.getElementById('onboarding');
+    ob.style.display = 'flex';
+    ob.classList.remove('hide');
+    obCurrent = 1;
+    goObSlide(1);
+  }, 400);
+}
+
+function clearAllEntries() {
+  if (!confirm('모든 기록을 삭제할까요?\n삭제된 기록은 복구할 수 없어요.')) return;
+  entries = [];
+  saveToStorage();
+  closeSettings();
+  renderLog();
+  const t = document.getElementById('toast');
+  t.textContent = '기록이 모두 삭제됐어요';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+
+function openNoteCard() {
+  const card = document.getElementById('noteCard');
+  if (!card || card.classList.contains('opened')) return;
+  card.classList.add('opened');
+
+  const quoteEl = document.getElementById('comfortQuote');
+  const cursor = document.getElementById('typingCursor');
+  const text = quoteEl.dataset.text || quoteEl.textContent || '';
+
+  quoteEl.textContent = '';
+  cursor.style.display = 'inline-block';
+
+  let i = 0;
+  const speed = 140;
+  function typeNext() {
+    if (i < text.length) {
+      quoteEl.textContent += text[i];
+      i++;
+      setTimeout(typeNext, speed);
+    } else {
+      setTimeout(() => cursor.style.display = 'none', 800);
+    }
+  }
+  setTimeout(typeNext, 200);
+}
+
+
+function renderTodayEntries() {
+  const now = new Date();
+  const todayLabel = `${now.getMonth()+1}월 ${now.getDate()}일`;
+  const todayList = entries.filter(e => e.date === todayLabel);
+
+  const emptyEl = document.getElementById('todayEmpty');
+  const list = document.getElementById('todayEntriesList');
+  if (!list) return;
+
+  const writeBtn = document.getElementById('writeFixedBtn');
+  if (!todayList.length) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    if (writeBtn) writeBtn.style.display = 'none';
+    list.innerHTML = '';
+    return;
+  }
+
+  if (emptyEl) emptyEl.style.display = 'none';
+  if (writeBtn) writeBtn.style.display = 'flex';
+  list.innerHTML = '';
+
+  todayList.forEach(item => {
+    const el = document.createElement('div');
+    el.style.cssText = `
+      background:#FFFEFC; border-radius:var(--radius-lg);
+      padding:20px 22px; margin-bottom:10px;
+      border:1px solid var(--border);
+      box-shadow: var(--shadow);
+      position: relative;
+    `;
+
+    // 랜덤 작은 점 색상
+    const dotColors = ['#F5D445', '#A8C870', '#E8D8C0'];
+    const dot = dotColors[Math.floor(Math.random() * dotColors.length)];
+
+    const preview = item.text.length > 60
+      ? item.text.slice(0, 60) + '...'
+      : item.text;
+
+    const tagHTML = item.tags.length
+      ? item.tags.map(t=>`<span class="tag tag-${t.color}" style="font-size:11px;">${esc(t.label)}</span>`).join('')
+      : '';
+
+    const selfWordHTML = item.selfWord
+      ? `<div style="
+          margin-top:10px; padding:10px 14px;
+          background:rgba(216,232,220,0.15);
+          border-radius:10px; border-left:2px solid #D8E8DC;
+          font-family:'Nanum Myeongjo',serif;
+          font-size:var(--text-caption); color:var(--text-mid);
+          letter-spacing:-0.2px; line-height:1.6;
+          word-break:keep-all;
+        ">"${esc(item.selfWord)}"</div>`
+      : '';
+
+    el.innerHTML = `
+      <div style="position:absolute; top:14px; left:16px;
+        width:7px; height:7px; border-radius:50%;
+        background:${dot}; opacity:0.85;">
+      </div>
+      <div style="font-family:'Pretendard',sans-serif;font-size:var(--text-sub);color:var(--text-deep);line-height:var(--line-height);letter-spacing:-0.3px;margin-bottom:10px;word-break:keep-all;">${esc(preview)}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;flex-wrap:wrap;gap:5px;">${tagHTML}</div>
+        <span style="font-size:11px;color:var(--text-light);flex-shrink:0;margin-left:8px;">${item.time}</span>
+      </div>
+      ${selfWordHTML}
+    `;
+    list.appendChild(el);
+  });
+}
+
+function init() {
+  initOnboarding();
+  setGreeting();
+  setComfortQuotes();
+  renderTodayEntries();
+  renderLog();
+}
+
+function setGreeting() {
+  const h = new Date().getHours();
+  const pools = {
+    night:    ['지금 마음이 어때요?', '잠 못 드는 밤이에요'],
+    morning:  ['오늘 아침 마음은요?', '지금 어떤 기분이에요?'],
+    forenoon: ['지금 마음이 어때요?', '요즘 어때요?'],
+    lunch:    ['지금 잠깐 어때요?', '지금 이 순간은요?'],
+    afternoon:['지금 여기, 괜찮아요?', '지금 마음이 어때요?'],
+    evening:  ['오늘 남은 마음은요?', '지금 마음이 어때요?'],
+    latenight:['자기 전 마음은요?', '지금 마음이 어때요?'],
+  };
+  const subs = {
+    night:    ['무거운 마음이 있으면 여기 놓고 가요', '잠이 안 올 땐 툭 꺼내봐요'],
+    morning:  ['오늘도 천천히 괜찮아요', '작은 것부터 하나씩이면 충분해요'],
+    forenoon: ['지금 어떤 마음이에요?', '잠깐, 한 호흡 해요'],
+    lunch:    ['잠깐 쉬어가도 돼요', '오전 내내 수고했어요'],
+    afternoon:['여기선 솔직해도 괜찮아요', '오늘 하루도 잘 해내고 있어요'],
+    evening:  ['하루를 천천히 정리해봐요', '오늘 내 마음, 어땠어요?'],
+    latenight:['자기 전 한 줄이면 충분해요', '오늘도 수고 많았어요'],
+  };
+  const key = h<5?'night':h<9?'morning':h<12?'forenoon':h<14?'lunch':h<18?'afternoon':h<21?'evening':'latenight';
+  const pool = pools[key];
+  const g = pool[Math.floor(Math.random() * pool.length)];
+  const sub = subs[key][Math.floor(Math.random() * subs[key].length)];
+  document.getElementById('greetingText').textContent = g;
+  const subEl = document.getElementById('greetingSub');
+  if (subEl) subEl.textContent = sub;
+  const now = new Date();
+  const days = ['일','월','화','수','목','금','토'];
+  document.getElementById('greetingDate').textContent =
+    `${now.getMonth()+1}월 ${now.getDate()}일 (${days[now.getDay()]})`;
+}
+
+function setComfortQuotes() {
+  // 최근 3개 기록의 태그 수집
+  const recentTags = new Set();
+  entries.slice(0, 3).forEach(e => e.tags.forEach(t => recentTags.add(t.label)));
+
+  // 태그별 위로 문구 매핑
+  const tagQuoteMap = [
+    {
+      tags: ['지침', '무기력'],
+      quotes: [
+        "그 짐을 혼자 다 들고 다녔군요. 내려놓아도 돼요.",
+        "아무것도 하기 싫은 날도, 그게 하루였어요.",
+        "오늘 하루도 애썼어요. 정말로."
+      ]
+    },
+    {
+      tags: ['불안함', '복잡함'],
+      quotes: [
+        "힘든 감정도 오래 머물지 않아요. 지나가고 있는 중이에요.",
+        "잘 모르겠어도 괜찮아요. 천천히 알아가면 돼요.",
+        "지금 흔들리는 게 약한 게 아니에요. 살아있다는 증거예요."
+      ]
+    },
+    {
+      tags: ['소소한 행복', '감사함', '홀가분함'],
+      quotes: [
+        "작은 것에서 기쁨을 찾는 당신, 참 다정한 사람이에요.",
+        "소소한 것들이 쌓여서 결국 하루가 되잖아요.",
+        "오늘 웃은 순간이 하나라도 있었다면 충분해요."
+      ]
+    },
+    {
+      tags: ['육아'],
+      quotes: [
+        "완벽한 엄마보다 행복한 엄마가 아이에게 더 좋아요.",
+        "오늘 기분이 안 좋은 건 당신 잘못이 아니에요.",
+        "당신이 있어서 누군가의 하루가 더 따뜻해졌어요."
+      ]
+    },
+    {
+      tags: ['뿌듯함', '설렘'],
+      quotes: [
+        "포기하지 않은 것만으로 대단한 사람이에요.",
+        "어제의 나보다 조금 더 나아졌다면 충분해요.",
+        "오늘 정말 잘했어요. 스스로를 토닥여 주세요."
+      ]
+    },
+    {
+      tags: ['그리움'],
+      quotes: [
+        "그리운 마음도 소중한 감정이에요. 충분히 느껴도 돼요.",
+        "좋은 날도, 힘든 날도 모두 당신의 이야기예요.",
+        "서두르지 않아도 돼요. 당신의 속도로 가면 충분해요."
+      ]
+    },
+    {
+      tags: ['일', '관계'],
+      quotes: [
+        "실수해도 괜찮아요. 그 사람도 나도 모두 배우는 중이에요.",
+        "비교하지 않아도 돼요. 당신의 길은 따로 있어요.",
+        "느리게 가도 괜찮아요. 방향이 맞으면 돼요."
+      ]
+    }
+  ];
+
+  // 최근 태그와 매칭되는 문구 찾기
+  let matched1 = null;
+  const shuffledMap = [...tagQuoteMap].sort(() => Math.random() - 0.5);
+
+  for (const group of shuffledMap) {
+    if (group.tags.some(t => recentTags.has(t))) {
+      matched1 = group.quotes[Math.floor(Math.random() * group.quotes.length)];
+      break;
+    }
+  }
+
+  // 매칭 안 되면 랜덤
+  if (!matched1) matched1 = COMFORT_QUOTES[Math.floor(Math.random() * COMFORT_QUOTES.length)].text;
+
+  document.getElementById('comfortQuote').dataset.text = matched1;
+  document.getElementById('comfortQuote').textContent = '';
+
+}
+
+// ─── TABS ──────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.getElementById(`nav-${tab}`).classList.add('active');
+  // 하단 버튼 지금 탭에서만 표시
+  const writeBtn = document.getElementById('writeFixedBtn');
+  if (writeBtn) writeBtn.style.display = tab === 'now' ? 'flex' : 'none';
+  if (tab === 'now') renderTodayEntries();
+  if (tab === 'log') renderLog();
+  if (tab === 'review') renderReview();
+}
+
+// ─── 돌아보기 렌더 ──────────────────────────────────
+function renderReview() {
+  const empty = document.getElementById('reviewEmpty');
+  const body  = document.getElementById('reviewBody');
+  if (!entries.length) {
+    empty.style.display = 'flex';
+    body.style.display  = 'none';
+    return;
+  }
+  empty.style.display = 'none';
+  body.style.display  = 'block';
+
+  // 기록 수 + 기간 표시
+  const countEl = document.getElementById('reviewEntryCount');
+  if (countEl) countEl.textContent = `마음툭 ${entries.length}번`;
+
+  renderCloverCalendar();
+  renderTagCloud();
+}
+
+function renderCloverCalendar() {
+  const cal = document.getElementById('cloverCalendar');
+  cal.innerHTML = '';
+
+  const today = new Date();
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    days.push(d);
+  }
+
+  const writtenDates = new Set(entries.map(e => e.date));
+
+  const cloverSVG = `
+    <svg viewBox="0 0 28 28" fill="none" style="width:26px;height:26px;filter:drop-shadow(0 1px 4px rgba(168,216,200,0.5));">
+      <path d="M14 3 L15.8 9 L22 9 L16.9 12.8 L18.7 19 L14 15.2 L9.3 19 L11.1 12.8 L6 9 L12.2 9 Z"
+        fill="#A8C870" opacity="0.95"/>
+    </svg>`;
+
+  const emptyDot = `<div style="
+    width:8px; height:8px; border-radius:50%;
+    background:var(--border); opacity:0.35;
+    border: 1.5px solid rgba(176,160,154,0.3);
+  "></div>`;
+
+  // 오늘 표시 링
+  const todayRing = (inner) => `
+    <div style="
+      width:36px; height:36px; border-radius:50%;
+      border: 1.5px solid var(--terracotta-light);
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(196,113,74,0.04);
+    ">${inner}</div>`;
+
+  // 7칸 행
+  const row = document.createElement('div');
+  row.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding: 8px 0;';
+
+  let weekCount = 0;
+  days.forEach(d => {
+    const dateLabel = `${d.getMonth()+1}월 ${d.getDate()}일`;
+    const hasEntry = writtenDates.has(dateLabel);
+    const hasReleased = releasedDates.has(dateLabel);
+    const isToday = d.toDateString() === today.toDateString();
+    if (hasEntry) weekCount++;
+
+    const cell = document.createElement('div');
+    cell.style.cssText = 'display:flex; flex-direction:column; align-items:center; gap:5px;';
+
+    const dayNames = ['일','월','화','수','목','금','토'];
+    const dayLabel = `<div style="font-size:10px; color:${isToday ? 'var(--terracotta)' : 'var(--text-light)'}; font-weight:${isToday ? 700 : 400}; letter-spacing:-0.1px;">${dayNames[d.getDay()]}</div>`;
+
+    // 놓아둔 날 → 아주 작은 점
+    const releasedDot = `<div style="
+      width:5px; height:5px; border-radius:50%;
+      background:var(--text-light); opacity:0.3;
+    "></div>`;
+
+    const mark = hasEntry ? cloverSVG : hasReleased ? releasedDot : emptyDot;
+    const markWrap = isToday
+      ? todayRing(mark)
+      : `<div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center;">${mark}</div>`;
+
+    cell.innerHTML = dayLabel + markWrap;
+    row.appendChild(cell);
+  });
+
+  cal.appendChild(row);
+
+  // 칭찬 멘트 — 단계별
+  const praise = document.createElement('div');
+  praise.style.cssText = `
+    margin-top: 18px; padding: 14px 16px;
+    background: rgba(106,158,114,0.07);
+    border-radius: var(--radius-md); text-align: center;
+    font-family: 'Pretendard', sans-serif;
+  `;
+
+  let praiseText = '';
+  if (weekCount === 0) {
+    praiseText = `<span style="font-size:var(--text-caption); color:var(--text-light); letter-spacing:-0.2px;">이번 주 아직 기록이 없어요. 오늘 시작해봐요</span>`;
+  } else if (weekCount === 1) {
+    praiseText = `<span style="font-size:var(--text-sub); font-weight:600; color:var(--text-deep); letter-spacing:-0.3px;">첫 발을 뗐어요<br><span style="font-size:12px; font-weight:400; color:var(--text-light);">작은 시작이 큰 변화를 만들어요.</span></span>`;
+  } else if (weekCount <= 3) {
+    praiseText = `<span style="font-size:var(--text-sub); font-weight:600; color:var(--text-deep); letter-spacing:-0.3px;">이번 주 <span style="color:#68A357;">${weekCount}번</span> 마음을 꺼냈어요<br><span style="font-size:12px; font-weight:400; color:var(--text-light);">꾸준히 이어가고 있어요, 잘하고 있어요.</span></span>`;
+  } else if (weekCount <= 5) {
+    praiseText = `<span style="font-size:var(--text-sub); font-weight:600; color:var(--text-deep); letter-spacing:-0.3px;">이번 주 절반 이상 내 마음을 돌봤네요<br><span style="font-size:12px; font-weight:400; color:var(--text-light);">${weekCount}번이나 스스로를 들여다봤어요.</span></span>`;
+  } else if (weekCount === 6) {
+    praiseText = `<span style="font-size:var(--text-sub); font-weight:600; color:var(--text-deep); letter-spacing:-0.3px;">거의 매일 마음을 챙겼어요<br><span style="font-size:12px; font-weight:400; color:var(--text-light);">스스로에게 다정한 한 주였네요.</span></span>`;
+  } else {
+    praiseText = `<span style="font-size:var(--text-sub); font-weight:700; color:var(--text-deep); letter-spacing:-0.3px;">일주일 내내 함께했어요<br><span style="font-size:12px; font-weight:400; color:#68A357;">별을 가득 채운 것처럼, 특별한 한 주예요.</span></span>`;
+  }
+
+  praise.innerHTML = praiseText;
+  cal.appendChild(praise);
+}
+
+function getTagFrequency() {
+  const freq = {};
+  entries.forEach(e => {
+    e.tags.forEach(t => {
+      const key = t.label + '|' + t.color;
+      freq[key] = (freq[key] || 0) + 1;
+    });
+  });
+  return Object.entries(freq)
+    .map(([key, count]) => {
+      const [label, color] = key.split('|');
+      return { label, color, count };
+    })
+    .sort((a, b) => b.count - a.count);
+}
+
+function renderTagBarChart() {
+  const container = document.getElementById('tagBarChart');
+  if (!container) return;
+
+  const freq = getTagFrequency();
+  if (!freq.length) {
+    container.innerHTML = '<div style="font-size:var(--text-caption);color:var(--text-light);letter-spacing:-0.2px;">태그를 달면 여기에 모여요.</div>';
+    return;
+  }
+
+  const max = freq[0].count;
+  const top = freq.slice(0, 6); // 최대 6개
+
+  const colorMap = {
+    peach: '#C4714A',
+    green: '#68A357',
+    blue:  '#3D6882',
+  };
+
+  container.innerHTML = top.map(({ label, color, count }) => {
+    const pct = Math.round((count / max) * 100);
+    const barColor = colorMap[color] || '#D8E8DC';
+    return `
+      <div style="margin-bottom:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+          <span style="font-size:var(--text-sub);color:var(--text-deep);letter-spacing:-0.2px;">${esc(label)}</span>
+          <span style="font-size:12px;color:var(--text-light);letter-spacing:-0.1px;">${count}번</span>
+        </div>
+        <div style="height:4px;background:#F0F0F0;border-radius:2px;overflow:hidden;">
+          <div style="
+            height:100%;width:${pct}%;
+            background:${barColor};
+            border-radius:2px;
+            transition:width 0.6s ease;
+            opacity:0.75;
+          "></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// TODO: AI 연동 (Claude API)
+function weeklyReview() {
+  alert('이번 주 돌아보기는 곧 준비될 거예요.');
+}
+
+function renderRuleSummary() {
+  const el = document.getElementById('ruleSummary');
+  if (!el) return;
+
+  const freq = getTagFrequency();
+  if (!freq.length) {
+    el.textContent = '기록이 쌓이면 요즘의 내가 보여요.';
+    return;
+  }
+
+  const top1 = freq[0];
+  const top2 = freq[1];
+  const total = entries.length;
+
+  // 카테고리 분류
+  const heavyTags = ['지침','무기력','불안함','복잡함','그리움','아쉬움'];
+  const lightTags = ['소소한 행복','감사함','뿌듯함','홀가분함','설렘'];
+
+  const isTop1Heavy = heavyTags.includes(top1?.label);
+  const isTop1Light = lightTags.includes(top1?.label);
+  const isTop2Light = lightTags.includes(top2?.label);
+  const isTop2Heavy = heavyTags.includes(top2?.label);
+
+  let msg = '';
+
+  if (isTop1Heavy && isTop2Light) {
+    msg = `많이 지쳤던 것 같아요.\n그래도 ${top2.label}도 담았네요.\n힘든 날에도 작은 것을 알아챈 거예요.`;
+  } else if (isTop1Light && isTop2Heavy) {
+    msg = `${top1.label}이 많았던 시간이에요.\n${top2.label}도 있었지만,\n그래도 좋은 순간들이 있었네요.`;
+  } else if (isTop1Heavy) {
+    msg = `요즘 많이 지쳐있는 것 같아요.\n${top1.label}이 가장 많이 담겼어요.\n충분히 쉬어도 돼요.`;
+  } else if (isTop1Light) {
+    msg = `${top1.label}이 가장 많이 담겼어요.\n좋은 순간들을 잘 알아챘네요.\n요즘 나쁘지 않은 것 같아요.`;
+  } else {
+    msg = `${top1.label}이 자주 떠올랐던 시간이에요.\n${total}번의 마음을 꺼내놓았어요.`;
+  }
+
+  // 기록 횟수 추가 문구
+  if (total >= 7) {
+    msg += `\n\n일주일 내내 마음을 꺼냈어요.`;
+  } else if (total >= 4) {
+    msg += `\n\n꾸준히 이어가고 있어요.`;
+  }
+
+  el.innerHTML = msg.replace(/\n/g, '<br>');
+}
+
+function renderTagCloud() {
+  const cloud = document.getElementById('reviewTagCloud');
+  if (!cloud) return;
+  cloud.innerHTML = '';
+
+  const freq = getTagFrequency();
+  if (!freq.length) {
+    cloud.innerHTML = '<span style="font-size:var(--text-caption);color:var(--text-light);letter-spacing:-0.2px;">태그를 달면 여기에 모여요.</span>';
+    renderRuleSummary();
+    return;
+  }
+
+  const maxCount = freq[0].count;
+  const warmTags = ['소소한 행복','설렘','감사함','뿌듯함','홀가분함','기대됨','나만의 시간','버팀'];
+  const coolTags = ['지침','무기력','불안함','복잡함','그리움','아쉬움'];
+
+  const colorMap = {
+    peach: { warm: '#9E4E1E', cool: '#8B3A10' },
+    green: { warm: '#3A6B3E', cool: '#2D5A45' },
+    blue:  { warm: '#2D6070', cool: '#1E4A6A' },
+  };
+  const bgMap = {
+    peach: { warm: '#FFEDEA', cool: '#F5D5BC' },
+    green: { warm: '#EAF4EB', cool: '#C3DEC6' },
+    blue:  { warm: '#EBF2F8', cool: '#C2D8EC' },
+  };
+
+  function seededRand(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) h = (Math.imul(31, h) + str.charCodeAt(i)) | 0;
+    return (Math.abs(h) % 1000) / 1000;
+  }
+
+  freq.slice(0, 5).forEach(({ label, color, count }) => {
+    const ratio = count / maxCount;
+    const fontSize = Math.round(13 + ratio * 11);
+    const padding = ratio > 0.7 ? '7px 16px' : ratio > 0.4 ? '6px 13px' : '5px 11px';
+    const opacity = 0.65 + ratio * 0.35;
+    const fontWeight = ratio > 0.6 ? 700 : ratio > 0.3 ? 600 : 500;
+
+    const tone = warmTags.includes(label) ? 'warm' : coolTags.includes(label) ? 'cool' : 'warm';
+    const textColor = colorMap[color]?.[tone] || colorMap.peach.warm;
+    const bgColor   = bgMap[color]?.[tone]   || bgMap.peach.warm;
+
+    const r  = seededRand(label);
+    const r2 = seededRand(label + '2');
+    const r3 = seededRand(label + '3');
+    const rotate    = (r * 10 - 5).toFixed(1);
+    const marginTop = Math.round(r2 * 10 - 2);
+    const marginRight = Math.round(r3 * 10 + 2);
+
+    const span = document.createElement('span');
+    span.className = 'cloud-tag';
+    span.textContent = label;
+    span.style.cssText = `
+      font-size:${fontSize}px; padding:${padding};
+      background:${bgColor}; color:${textColor};
+      opacity:${opacity}; font-weight:${fontWeight};
+      line-height:1.2; transform:rotate(${rotate}deg);
+      margin-top:${marginTop}px; margin-right:${marginRight}px;
+      display:inline-block;
+    `;
+    cloud.appendChild(span);
+  });
+
+  renderRuleSummary();
+}
+
+
+// ─── SEARCH / FILTER ───────────────────────────────
+function toggleLogMenu() {
+  const box = document.getElementById('searchBox');
+  if (!box) return;
+  box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+  if (box.style.display === 'flex') {
+    document.getElementById('searchInput')?.focus();
+  }
+}
+
+function toggleSearchBox() {
+  const box = document.getElementById('searchBox');
+  const btn = document.getElementById('searchToggleBtn');
+  const isOpen = box.style.display === 'none';
+  box.style.display = isOpen ? 'flex' : 'none';
+  btn.classList.toggle('active', isOpen);
+  if (isOpen) document.getElementById('searchInput').focus();
+  else clearSearch();
+}
+
+// ─── 필터 칩 동적 생성 ────────────────────────────
+function renderFilterChips() {
+  const panel = document.getElementById('filterPanel');
+
+  // 기존 칩 제거 (전체 버튼 제외)
+  panel.querySelectorAll('.filter-chip:not(.filter-chip-all)').forEach(c => c.remove());
+
+  // 실제 기록에서 태그 수집 — 빈도순 정렬
+  const freq = {};
+  entries.forEach(e => {
+    e.tags.forEach(t => {
+      if (!freq[t.label]) freq[t.label] = { count: 0, color: t.color };
+      freq[t.label].count++;
+    });
+  });
+
+  const sorted = Object.entries(freq)
+    .sort((a, b) => b[1].count - a[1].count);
+
+  sorted.forEach(([label, { color }]) => {
+    const chip = document.createElement('span');
+    chip.className = `filter-chip filter-chip-${color}`;
+    chip.textContent = label;
+    chip.onclick = () => setFilter(label, chip);
+    // 현재 활성 필터면 active 표시
+    if (activeFilter === label) chip.classList.add('active');
+    panel.appendChild(chip);
+  });
+
+  // 전체 버튼 active 동기화
+  const allBtn = panel.querySelector('.filter-chip-all');
+  allBtn.classList.toggle('active', activeFilter === 'all');
+}
+
+function toggleFilterPanel() {
+  const p = document.getElementById('filterPanel');
+  const b = document.getElementById('filterToggleBtn');
+  const isOpen = p.classList.toggle('open');
+  b.classList.toggle('active', isOpen);
+  if (isOpen) renderFilterChips();
+}
+
+function setFilter(tag, el) {
+  activeFilter = tag;
+  document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderLog();
+}
+
+function onSearch() {
+  searchQuery = document.getElementById('searchInput').value.trim();
+  document.getElementById('searchClear').style.display = searchQuery ? 'block' : 'none';
+  renderLog();
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  searchQuery = '';
+  document.getElementById('searchClear').style.display = 'none';
+  renderLog();
+}
+
+function getFiltered() {
+  return entries.filter(e => {
+    const tagOk = activeFilter==='all' || e.tags.some(t=>t.label===activeFilter);
+    const searchOk = !searchQuery || e.text.includes(searchQuery) || e.tags.some(t=>t.label.includes(searchQuery));
+    return tagOk && searchOk;
+  });
+}
+
+// ─── OVERLAY ───────────────────────────────────────
+const PLACEHOLDERS = [
+  '회의가 너무 지루해. 집에 가고 싶었다',
+  '별거 아닌데 자꾸 생각나',
+  '오늘 커피가 유독 맛있었다',
+  '그냥 멍했던 하루',
+  '웃고 넘겼는데 사실 좀 그랬다',
+  '오늘 스쳐간 마음 한 조각',
+  '말하지 못하고 넘어갔던 것',
+  '퇴근길에 괜히 멍했던 순간',
+  '딱히 이유 없이 좋았던 순간',
+  '그냥 툭, 꺼내놓고 싶었다',
+];
+
+function openOverlay() {
+  document.getElementById('writeOverlay').classList.add('open');
+  const ta = document.getElementById('writeInput');
+  ta.placeholder = PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)];
+  ta.focus();
+
+  document.querySelectorAll('#userTagCloud .tag').forEach(t=>t.classList.remove('selected'));
+  document.getElementById('customTagList').innerHTML = '';
+  document.getElementById('customTagInput').value = '';
+  showRandomTags();
+  const addChip = document.getElementById('addTagChip');
+  const inputWrap = document.getElementById('customTagInputWrap');
+  if (addChip) addChip.style.display = 'inline-flex';
+  if (inputWrap) inputWrap.style.display = 'none';
+}
+
+function closeOverlay() {
+  document.getElementById('writeOverlay').classList.remove('open');
+  document.getElementById('writeInput').value = '';
+}
+
+function toggleCustomTagInput() {
+  const wrap = document.getElementById('customTagInputWrap');
+  const chip = document.getElementById('addTagChip');
+  if (wrap.style.display === 'none') {
+    wrap.style.display = 'flex';
+    chip.style.display = 'none';
+    setTimeout(() => document.getElementById('customTagInput').focus(), 50);
+  } else {
+    wrap.style.display = 'none';
+    chip.style.display = 'inline-flex';
+  }
+}
+
+function handleCustomTag(e) {
+  if (e.key !== 'Enter') return;
+  e.preventDefault();
+  const input = document.getElementById('customTagInput');
+  // 특수문자 제거 + # 제거
+  let val = input.value.trim().replace(/^#/, '').replace(/[#!?@%^&*()=+\[\]{};:'"<>,.\/\\|`~]/g, '');
+  if (!val) return;
+  // 10자 제한
+  if (val.length > 10) val = val.slice(0, 10);
+  addCustomTag(val);
+  input.value = '';
+}
+
+function addCustomTag(label) {
+  const list = document.getElementById('customTagList');
+  // 중복 방지
+  const exists = [...list.querySelectorAll('.custom-tag-item')].some(el => el.dataset.label === label);
+  if (exists) return;
+
+  const colors = ['peach', 'green', 'blue'];
+  const color = colors[Math.floor(Math.random() * colors.length)];
+
+  const wrap = document.createElement('span');
+  wrap.className = `tag tag-${color} custom-tag-item selected`;
+  wrap.dataset.label = label;
+  wrap.dataset.color = color;
+  wrap.style.cssText = 'display:flex; align-items:center; gap:4px; cursor:default;';
+  wrap.innerHTML = `
+    <span>${esc(label)}</span>
+    <span onclick="removeCustomTag(this)" style="
+      font-size:10px; opacity:0.6; cursor:pointer; line-height:1;
+      padding-left:2px;
+    ">✕</span>
+  `;
+  list.appendChild(wrap);
+}
+
+function removeCustomTag(btn) {
+  btn.closest('.custom-tag-item').remove();
+}
+
+function onWriteInput() {}
+
+function addSampleTag(label, color) {
+  const list = document.getElementById('customTagList');
+  // 중복 체크
+  const exists = [...list.querySelectorAll('.custom-tag-item')].some(t => t.dataset.label === label);
+  if (exists) return;
+  const el = document.createElement('span');
+  el.className = `tag tag-${color} custom-tag-item`;
+  el.dataset.label = label;
+  el.dataset.color = color;
+  el.innerHTML = `${label} <span onclick="this.parentElement.remove()" style="margin-left:4px;opacity:0.5;cursor:pointer;">×</span>`;
+  list.appendChild(el);
+}
+
+function toggleUserTag(el) { el.classList.toggle('selected'); }
+
+function showRandomTags() {
+  const userSelected = new Set();
+  document.querySelectorAll('#customTagList .custom-tag-item').forEach(t => userSelected.add(t.dataset.label));
+
+  const available = TAG_POOL.filter(([label]) => !userSelected.has(label));
+  const picks = available.sort(() => Math.random() - 0.5).slice(0, 5);
+
+  const area = document.getElementById('randomTagArea');
+  area.innerHTML = '';
+  picks.forEach(([label, color]) => {
+    const s = document.createElement('span');
+    s.className = `tag tag-${color}`;
+    s.style.cssText = 'cursor:pointer; opacity:0.6;';
+    s.textContent = label;
+    s.onclick = () => addSampleTag(label, color);
+    area.appendChild(s);
+  });
+  area.style.display = 'flex';
+}
+
+// ─── 놓아주기 ──────────────────────────────────────
+function releaseEntry() {
+  const text = document.getElementById('writeInput').value.trim();
+  if (!text) { closeOverlay(); return; }
+
+  // 날짜만 저장 (내용은 저장 안 함)
+  const now = new Date();
+  const dateLabel = `${now.getMonth()+1}월 ${now.getDate()}일`;
+  if (!releasedDates) window.releasedDates = new Set();
+  releasedDates.add(dateLabel);
+
+  const overlay = document.getElementById('writeOverlay');
+  const textarea = document.getElementById('writeInput');
+  const rect = textarea.getBoundingClientRect();
+
+  // 글자 쪼개서 파티클 생성
+  const words = text.split('').slice(0, 30); // 최대 30자
+  words.forEach((char, i) => {
+    if (char === ' ' || char === '\n') return;
+    const el = document.createElement('div');
+    el.className = 'scatter-particle';
+    el.textContent = char;
+
+    // 시작 위치: 텍스트 영역 내 랜덤
+    const startX = rect.left + Math.random() * rect.width;
+    const startY = rect.top + Math.random() * Math.min(rect.height, 120);
+    el.style.left = startX + 'px';
+    el.style.top  = startY + 'px';
+
+    // 흩어질 방향: 위쪽으로 + 좌우 랜덤
+    const tx = (Math.random() - 0.5) * 200;
+    const ty = -(80 + Math.random() * 160);
+    const rot = (Math.random() - 0.5) * 120 + 'deg';
+    el.style.setProperty('--tx', tx + 'px');
+    el.style.setProperty('--ty', ty + 'px');
+    el.style.setProperty('--rot', rot);
+    el.style.animationDelay = (i * 0.03) + 's';
+
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 2000);
+  });
+
+  // 오버레이 닫기
+  closeOverlay();
+
+  // 완료 화면 표시
+  setTimeout(() => {
+    const done = document.getElementById('releaseDone');
+    // 애니메이션 리셋
+    done.querySelectorAll('.release-done-symbol, .release-done-text, .release-done-sub').forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight;
+      el.style.animation = '';
+    });
+    done.classList.add('show');
+    setTimeout(() => {
+      done.classList.remove('show');
+    }, 3500);
+  }, 200);
+}
+
+// ─── SAVE ──────────────────────────────────────────
+function saveEntry() {
+  const text = document.getElementById('writeInput').value.trim();
+  if (!text) return;
+  const tags = [], seen = new Set();
+  document.querySelectorAll('#userTagCloud .tag.selected').forEach(t => {
+    const color = t.classList.contains('tag-peach')?'peach':t.classList.contains('tag-green')?'green':'blue';
+    if (!seen.has(t.textContent)) { tags.push({label:t.textContent,color}); seen.add(t.textContent); }
+  });
+  document.querySelectorAll('#customTagList .custom-tag-item').forEach(t => {
+    if (!seen.has(t.dataset.label)) { tags.push({label:t.dataset.label, color:t.dataset.color}); seen.add(t.dataset.label); }
+  });
+  const now = new Date();
+  const h = now.getHours(), m = String(now.getMinutes()).padStart(2,'0');
+  entries.unshift({ text, tags, date:`${now.getMonth()+1}월 ${now.getDate()}일`, time:`${h>=12?'오후':'오전'} ${h%12||12}:${m}` });
+  saveToStorage();
+  closeOverlay();
+  showSaveResponse(tags, text);
+  renderLog();
+  renderFilterChips();
+  renderTodayEntries();
+}
+
+// 나에게 한마디 문구 풀
+const SELF_WORDS = {
+  heavy: [
+    "힘든 게 당연한 거야.\n네가 약한 게 아니야.",
+    "오늘도 버텼잖아.\n그거면 충분해, 진짜로.",
+    "완벽하지 않아서\n오히려 진짜인 거야.",
+    "내 탓이 아니야.\n그냥 힘든 날인 거야.",
+    "내일의 나는\n오늘보다 조금 더 알고 있을 거야.",
+    "쉬는 것도 하는 거야.\n멈춘 게 아니야.",
+    "다 못 해도 괜찮아.\n오늘 할 수 있는 만큼이면 돼.",
+    "지금 이 모습도 나야.\n숨기지 않아도 돼.",
+    "딱 오늘 하루만.\n그다음은 그때 생각해.",
+    "나는 생각보다\n오래 버텨온 사람이야.",
+  ],
+  anxious: [
+    "이 감정, 틀린 게 아니야.\n네가 느끼는 거 다 맞아.",
+    "불안한 게 약한 거 아니야.\n그만큼 마음이 살아있는 거야.",
+    "다 정리 안 해도 돼.\n복잡한 채로 있어도 괜찮아.",
+    "몰라도 돼, 지금은.\n언젠가 알게 될 거야.",
+    "흔들리는 게 살아있다는 거야.\n단단한 척 안 해도 돼.",
+    "천천히 가도 돼.\n네 속도가 맞는 속도야.",
+    "이 감정도 지나가.\n지금이 전부가 아니야.",
+    "복잡한 마음도 나야.\n그 부분도 안아줘도 돼.",
+    "지금 할 수 있는 걸 하고 있어.\n그게 충분한 거야.",
+    "괜찮지 않아도 돼.\n억지로 괜찮은 척 안 해도 돼.",
+  ],
+  light: [
+    "이런 순간 알아챈 거,\n대단한 거야.",
+    "오늘 나 꽤 잘했어.\n인정해도 돼.",
+    "작은 것도 소중히 여기는 사람이야, 너는.",
+    "좋은 날은 기억해둬.\n나중에 꺼내 쓸 수 있어.",
+    "오늘 하루 수고했어.\n충분히.",
+    "이 기분, 오래 기억하고 싶다.\n잘 담아뒀어.",
+    "나는 충분히 다정한 사람이야.\n그거 알고 있어?",
+    "행복을 느낄 줄 아는 사람이야.\n그게 쉬운 게 아니야.",
+    "오늘도 좋은 걸 발견했네.\n역시 너야.",
+    "나한테 참 잘해줬어, 오늘.",
+  ],
+  proud: [
+    "해냈잖아.\n진짜로.",
+    "포기 안 했어.\n그게 얼마나 대단한 건지 알아?",
+    "이 느낌 기억해둬.\n네가 만든 거야.",
+    "작은 것도 성취야.\n크기로 따지지 마.",
+    "나를 믿어볼게.\n한번만 더.",
+    "어제보다 조금 더 나아졌어.\n눈에 안 보여도.",
+    "설레는 마음,\n소중히 해도 돼.",
+    "잘하고 있어.\n정말로, 진짜로.",
+    "오늘의 나,\n충분히 자랑스러워.",
+    "나는 계속 해낼 수 있어.\n지금까지도 그랬으니까.",
+  ],
+  parenting: [
+    "완벽한 엄마가 아니어도 괜찮아.\n곁에 있었잖아, 오늘도.",
+    "엄마도 사람이야.\n지쳐도 돼, 정말로.",
+    "나도 나를 돌봐야 해.\n그래야 줄 수 있어.",
+    "아이한테 최선을 다했어.\n보이지 않아도 다 가고 있어.",
+    "힘들어도 사랑하는 마음은 안 변해.\n그거면 충분해.",
+    "오늘 하루도 버텼어.\n대단한 거야, 진짜로.",
+    "나쁜 엄마가 아니야.\n그냥 많이 지친 엄마야.",
+    "나를 먼저 채워야 해.\n그게 이기적인 게 아니야.",
+    "오늘도 충분히 좋은 엄마였어.\n몰라도 그래.",
+    "완벽하지 않아서\n더 진짜 엄마인 거야.",
+  ],
+  social: [
+    "비교 안 해도 돼.\n너는 너의 속도가 있어.",
+    "내 속도로 가도 돼.\n늦은 게 아니야.",
+    "오늘 실수가 나를 정의하지 않아.\n그냥 오늘 실수한 거야.",
+    "모든 관계가 잘 될 필요 없어.\n나를 지키는 게 먼저야.",
+    "나는 나대로 충분해.\n누군가랑 비교하지 않아도.",
+    "다음에 더 잘하면 돼.\n오늘은 오늘 거야.",
+    "내 감정도 중요해.\n참지 않아도 돼.",
+    "모두에게 맞출 필요 없어.\n나를 잃지 마.",
+    "거절해도 돼.\n그게 나를 지키는 거야.",
+    "나를 지키는 게 우선이야.\n그래도 괜찮아.",
+  ],
+  neutral: [
+    "여기 꺼내놓은 것만으로도\n잘한 거야.",
+    "오늘의 나,\n그냥 있어도 괜찮아.",
+    "이 감정도 나야.\n외면하지 않아도 돼.",
+    "천천히 가도 돼.\n서두르지 않아도 돼.",
+    "나를 좀 더 믿어볼게.\n조금씩.",
+    "오늘도 살아냈어.\n그게 작은 게 아니야.",
+    "여기 두고 가도 돼.\n들고 다니지 않아도 돼.",
+    "나는 나를 알아가는 중이야.\n아직 몰라도 괜찮아.",
+    "지금 이 순간도 나야.\n다 나야.",
+    "툭 꺼내놓은 것만으로\n충분해.",
+  ],
+};
+
+function showSaveResponse(tags, text) {
+  const tagLabels = tags.map(t => t.label);
+  const heavyTags = ['지침','무기력'];
+  const anxiousTags = ['불안함','복잡함','그리움','아쉬움'];
+  const lightTags = ['소소한 행복','감사함','홀가분함'];
+  const proudTags = ['뿌듯함','설렘'];
+  const parentingTags = ['육아'];
+  const socialTags = ['일','관계','루틴'];
+  const heavyKeys = ['힘들','피곤','지쳐','모르겠','싫다','울었'];
+  const anxiousKeys = ['불안','걱정','짜증','복잡'];
+  const lightKeys = ['행복','좋았','감사','포근'];
+  const proudKeys = ['해냈','뿌듯','설레'];
+
+  const isHeavy = tagLabels.some(l=>heavyTags.includes(l)) || heavyKeys.some(k=>text.includes(k));
+  const isAnxious = tagLabels.some(l=>anxiousTags.includes(l)) || anxiousKeys.some(k=>text.includes(k));
+  const isLight = tagLabels.some(l=>lightTags.includes(l)) || lightKeys.some(k=>text.includes(k));
+  const isProud = tagLabels.some(l=>proudTags.includes(l)) || proudKeys.some(k=>text.includes(k));
+  const isParenting = tagLabels.some(l=>parentingTags.includes(l));
+  const isSocial = tagLabels.some(l=>socialTags.includes(l));
+
+  const wordPool = isParenting ? SELF_WORDS.parenting
+    : isHeavy ? SELF_WORDS.heavy
+    : isAnxious ? SELF_WORDS.anxious
+    : isProud ? SELF_WORDS.proud
+    : isSocial ? SELF_WORDS.social
+    : isLight ? SELF_WORDS.light
+    : SELF_WORDS.neutral;
+
+  const heavyMessages = [
+    { line1: "머릿속에 있던 걸\n지금 밖으로 꺼냈어요.", line2: "조금이라도 덜 답답해졌나요?" },
+    { line1: "그 무게를 여기\n내려놓았어요.", line2: "들고 다니지 않아도 돼요." },
+    { line1: "꺼내줘서 고마워요.", line2: "혼자 담고 있지 않아도 돼요." },
+  ];
+  const lightMessages = [
+    { line1: "이 순간을\n여기 담아뒀어요.", line2: "나중에 다시 꺼내볼게요." },
+    { line1: "좋은 걸 알아챘네요.", line2: "그런 당신, 참 다정해요." },
+    { line1: "오늘의 마음을\n잘 담았어요.", line2: "." },
+  ];
+  const neutralMessages = [
+    { line1: "여기 두고 가도 돼요.", line2: "잘 받았어요." },
+    { line1: "오늘도 여기 왔네요.", line2: "잘했어요." },
+    { line1: "툭, 꺼내놓았어요.", line2: "그것만으로도 충분해요." },
+  ];
+
+  const pool = (isHeavy || isAnxious) ? heavyMessages : (isLight || isProud) ? lightMessages : neutralMessages;
+  // wordPool은 이미 위에서 설정됨
+  const msg = pool[Math.floor(Math.random() * pool.length)];
+
+  // 공감 문구
+  document.getElementById('saveResponseLine1').innerHTML = msg.line1.replace(/\n/g,'<br>');
+  document.getElementById('saveResponseLine2').textContent = msg.line2;
+
+  // 나에게 한마디 카드 3개 랜덤
+  const shuffled = [...wordPool].sort(() => Math.random() - 0.5).slice(0, 3);
+  const container = document.getElementById('selfWordCards');
+  container.innerHTML = '';
+  shuffled.forEach(word => {
+    const card = document.createElement('div');
+    card.className = 'message-card';
+    card.textContent = `"${word}"`;
+    card.onclick = () => {
+      document.querySelectorAll('.message-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      setTimeout(() => selectSelfWord(word), 300);
+    };
+    container.appendChild(card);
+  });
+
+  const sheet = document.getElementById('saveResponseSheet');
+  sheet.style.display = 'flex';
+  requestAnimationFrame(() => {
+    document.getElementById('saveResponseInner').style.transform = 'translateY(0)';
+  });
+}
+
+function toggleMyMessage() {
+  const box = document.getElementById('myMessageBox');
+  if (!box) return;
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  if (box.style.display === 'block') {
+    setTimeout(() => document.getElementById('myMessageInput')?.focus(), 100);
+  }
+}
+
+function saveMyMessage() {
+  const input = document.getElementById('myMessageInput');
+  if (!input || !input.value.trim()) return;
+  selectSelfWord(input.value.trim());
+}
+
+function toggleSelfWordInput() {
+  const wrap = document.getElementById('selfWordInputWrap');
+  const trigger = document.getElementById('selfWordDirectTrigger');
+  const isHidden = wrap.style.display === 'none' || !wrap.style.display;
+  wrap.style.display = isHidden ? 'flex' : 'none';
+  trigger.style.display = isHidden ? 'none' : 'block';
+  if (isHidden) setTimeout(() => document.getElementById('selfWordInput').focus(), 50);
+}
+
+function submitSelfWordDirect() {
+  const input = document.getElementById('selfWordInput');
+  if (!input || !input.value.trim()) return;
+  selectSelfWord(input.value.trim());
+}
+
+function selectSelfWord(word) {
+  if (entries.length > 0) {
+    entries[0].selfWord = word;
+  }
+  closeSaveResponse();
+  renderLog();
+  renderTodayEntries();
+
+  const t = document.getElementById('toast');
+  t.textContent = '마음에 담았어요';
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function closeSaveResponse() {
+  const directInput = document.getElementById('selfWordInput');
+  if (directInput) directInput.value = '';
+  const directWrap = document.getElementById('selfWordInputWrap');
+  if (directWrap) directWrap.style.display = 'none';
+  const directTrigger = document.getElementById('selfWordDirectTrigger');
+  if (directTrigger) directTrigger.style.display = 'block';
+  const inner = document.getElementById('saveResponseInner');
+  if (!inner) return;
+  inner.style.transform = 'translateY(100%)';
+  setTimeout(() => {
+    const sheet = document.getElementById('saveResponseSheet');
+    if (sheet) sheet.style.display = 'none';
+  }, 350);
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.textContent = TOAST_MESSAGES[Math.floor(Math.random() * TOAST_MESSAGES.length)];
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+// ─── LOG RENDER ────────────────────────────────────
+function renderLog() {
+  const section = document.getElementById('logSection');
+  const empty   = document.getElementById('logEmpty');
+  const countEl = document.getElementById('logResultCount');
+  section.querySelectorAll('.log-date-group').forEach(g=>g.remove());
+
+  const filtered = getFiltered();
+  const isFiltered = searchQuery || activeFilter !== 'all';
+
+  if (!filtered.length) {
+    empty.style.display = 'block';
+    empty.querySelector('.empty-icon').textContent = isFiltered ? '🔍' : '🌿';
+    if (isFiltered) {
+      empty.querySelector('.empty-text').innerHTML = '검색 결과가 없어요.';
+    } else {
+      empty.querySelector('.empty-text').innerHTML =
+        '아직 기록이 없어요.<br><span style="color:var(--terracotta);cursor:pointer;text-decoration:underline;text-underline-offset:3px;" onclick="openOverlay()">처음 마음을 꺼내볼까요?</span>';
+    }
+    countEl.textContent = '';
+    return;
+  }
+
+  empty.style.display = 'none';
+
+  // ② 맥락 있는 카운트
+  if (isFiltered) {
+    const label = activeFilter !== 'all' ? `"${activeFilter}"` : `"${searchQuery}"`;
+    countEl.innerHTML = `<span style="color:var(--terracotta);">${label}</span> · ${filtered.length}개`;
+  } else {
+    countEl.textContent = `마음툭 ${filtered.length}번`;
+  }
+
+  const grouped = {};
+  filtered.forEach(e=>{ (grouped[e.date]=grouped[e.date]||[]).push(e); });
+
+  Object.entries(grouped).forEach(([date, items]) => {
+    const group = document.createElement('div');
+    group.className = 'log-date-group';
+
+    // ③ 날짜 헤더 — 타임스탬프 추가
+    const dateEl = document.createElement('div');
+    dateEl.className = 'log-date';
+    const firstTime = items[items.length - 1]?.time || '';
+    dateEl.innerHTML = `${date}<span style="color:var(--text-light);font-weight:400;"> · ${firstTime}</span><span style="color:var(--text-light);font-weight:400; margin-left:6px;">기록 ${items.length}번</span>`;
+    group.appendChild(dateEl);
+
+    items.forEach((item, itemIdx) => {
+      const el = document.createElement('div');
+      el.className = 'log-item';
+      el.dataset.entryIndex = entries.indexOf(item);
+
+      // 탭하면 글 펼치기/접기
+      el.addEventListener('click', () => {
+        el.classList.toggle('log-item-expanded');
+      });
+
+      // 길게 누르기
+      let pressTimer;
+      el.addEventListener('touchstart', () => {
+        pressTimer = setTimeout(() => openEntryMenu(el), 600);
+      }, { passive: true });
+      el.addEventListener('touchend', () => clearTimeout(pressTimer));
+      el.addEventListener('touchmove', () => clearTimeout(pressTimer));
+
+      const isLong = item.text.length > 50;
+      const tagHTML = item.tags.length
+        ? item.tags.map(t=>`<span class="tag tag-${t.color}">${esc(t.label)}</span>`).join('')
+        : '';
+
+      // 나에게 한마디
+      const selfWordHTML = item.selfWord ? `
+        <div style="
+          margin-top:10px; padding:10px 14px;
+          background:rgba(216,232,220,0.15);
+          border-radius:10px; border-left:2px solid var(--terracotta-light);
+          font-family:'Nanum Myeongjo',serif;
+          font-size:var(--text-caption); color:var(--text-mid);
+          letter-spacing:-0.2px; line-height:1.6;
+          word-break:keep-all;
+        ">"${esc(item.selfWord)}"</div>` : '';
+
+      el.innerHTML = `
+        <div class="log-item-top">
+          <div class="log-preview">${hl(esc(item.text))}</div>
+        </div>
+        <div class="log-full-text">${hl(esc(item.text))}</div>
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-top:10px;">
+          <div style="display:flex; flex-wrap:wrap; gap:5px; flex:1;">
+            ${tagHTML}
+          </div>
+          <span class="log-time" style="flex-shrink:0; margin-left:8px;">${item.time}</span>
+        </div>
+        ${selfWordHTML}`;
+      group.appendChild(el);
+    });
+    section.appendChild(group);
+  });
+}
+
+function toggleItem(btn) {
+  const item = btn.closest('.log-item');
+  const expanded = item.classList.toggle('log-item-expanded');
+  btn.querySelector('.toggle-label').textContent = expanded ? '접기' : '더 보기';
+  // 화살표 회전
+  const svg = btn.querySelector('svg');
+  if (svg) svg.style.transform = expanded ? 'rotate(180deg)' : 'rotate(0deg)';
+}
+
+function hl(text) {
+  if (!searchQuery) return text;
+  const e = searchQuery.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return text.replace(new RegExp(e,'g'), m=>`<mark style="background:#FDECD8;border-radius:3px;padding:0 1px;">${m}</mark>`);
+}
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+init();
+</script>
+</body>
+</html>
