@@ -582,6 +582,7 @@
   .nav-icon { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; }
   .nav-icon svg { width: 24px; height: 24px; stroke: var(--text-light); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: stroke 0.2s, stroke-width 0.2s; }
   .nav-item.active .nav-icon svg { stroke: #7AAD3A; stroke-width: 1.9; }
+  .nav-item.active .nav-icon svg #moonPath { fill: #7AAD3A; }
   .nav-label { font-size: 10px; font-weight: 500; color: var(--text-light); letter-spacing: -0.2px; transition: color 0.2s, font-weight 0.2s; }
   .nav-item.active .nav-label { color: #7AAD3A; font-weight: 700; letter-spacing: -0.3px; }
   .nav-item.active .nav-icon { background: rgba(122,173,58,0.18); border-radius: 12px; width: 44px; height: 28px; transform: scale(1.03); }
@@ -962,7 +963,7 @@
       <div class="nav-label">툭로그</div>
     </div>
     <div class="nav-item" onclick="switchTab('review')" id="nav-review">
-      <div class="nav-icon"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="nav-icon"><svg viewBox="0 0 24 24" style="stroke:none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" style="fill:var(--text-light);stroke:none;" id="moonPath"/></svg></div>
       <div class="nav-label">요즘</div>
     </div>
   </div>
